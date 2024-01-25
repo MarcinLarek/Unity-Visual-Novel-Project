@@ -235,7 +235,9 @@ public class TextArchitect
                 if (alphas[i] >= 255)
                     minRange++;
             }
+
             tmpro.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
             bool lastCharacterIsInvisible = !textInfo.characterInfo[maxRange - 1].isVisible;
             if (alphas[maxRange - 1] > alphaTreshold || lastCharacterIsInvisible)
             {

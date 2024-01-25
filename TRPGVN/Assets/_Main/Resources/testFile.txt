@@ -1,0 +1,7 @@
+Affir "I'm testing the dialogue options"
+
+Affir "I hope it works"
+
+Ghoul "Aaahheeereee"
+
+Affir "It works"
