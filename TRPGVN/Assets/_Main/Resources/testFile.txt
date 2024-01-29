@@ -7,3 +7,9 @@ Affir "I hope \"it works\""
 Ghoul "Aaahheeereee"
 
 Affir "It works" PlaySong(End, -p 0.5), list(players, saveGame(1 -g all -f simple)
+
+Narrator "So be it"
+
+Affir "Dubi dubi du ba, dubi dubi du ba"
+
+"Agent P!"

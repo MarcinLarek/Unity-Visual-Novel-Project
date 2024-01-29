@@ -20,6 +20,9 @@ namespace TESTING
             List<string> lines = FileManager.ReadTextAsset("testFile", false);
             foreach(string line in lines)
             {
+                if (line == string.Empty)
+                    continue;
+
                 DIALOGUE_LINE dl = DialogueParser.Parse(line);
             }
         }
