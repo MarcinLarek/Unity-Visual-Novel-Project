@@ -2,6 +2,7 @@ using DIALOGUE;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.HableCurve;
 
 public class TestDialogueFiles : MonoBehaviour
 {
