@@ -25,7 +25,9 @@ public class DL_DIALOGUE_DATA
         segment.dialogue = (matches.Count == 0 ? rawDialogue : rawDialogue.Substring(0, matches[0].Index));
         segment.startSignal = DIALOGUE_SEGMENT.StartSignal.NONE;
         segment.signalDelay = 0;
-        segments.Add(segment);
+
+        if (!string.IsNullOrEmpty(rawDialogue)) //Check for lines without dialogue, like pure command lines
+            segments.Add(segment);
 
         if (matches.Count == 0)
             return segments;

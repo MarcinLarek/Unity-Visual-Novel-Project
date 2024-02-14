@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -64,7 +65,7 @@ namespace DIALOGUE
         {
             //Show or hide the speaker name if there is one present.
             if (line.hasSpeaker)
-                dialogueSystem.ShowSpeakerName(line.speaker);
+                dialogueSystem.ShowSpeakerName(line.speaker.displayName);
             
 
             //build dialogue

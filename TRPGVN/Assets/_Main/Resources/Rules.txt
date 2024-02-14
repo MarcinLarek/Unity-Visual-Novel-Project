@@ -11,3 +11,5 @@ Line breakers
 {a}	= append
 {wc n}	= wait clear number(time)
 {wa n}	= waint append number(time)
+
+speaker as characterName at 1:1 [0:Angle, 1:Happy] "segment{c}seg,emts" commands(args)
