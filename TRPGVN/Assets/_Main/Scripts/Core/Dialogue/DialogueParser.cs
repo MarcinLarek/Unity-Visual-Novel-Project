@@ -8,7 +8,7 @@ namespace DIALOGUE
     
     public class DialogueParser
     {
-        private const string commandRegexPattern = "\\w*[^\\s]\\(";
+        private const string commandRegexPattern = @"[\w\[\]]*[^\s]\(";
 
         public static DIALOGUE_LINE Parse(string rawLine)
         {
@@ -49,21 +49,23 @@ namespace DIALOGUE
 
             //Identigy Command Pattern
             Regex commandRegex = new Regex(commandRegexPattern);
-            Match match = commandRegex.Match(rawline);
+            MatchCollection matches = commandRegex.Matches(rawline);
             int commandStart = -1;
-            if(match.Success)
-            {
-                commandStart = match.Index;
 
-                if(dialogueStart == -1 && dialogueEnd == -1)
+            foreach(Match match in matches)
+            {
+                if(match.Index < dialogueStart || match.Index > dialogueEnd)
                 {
-                    return ("", "", rawline.Trim());
+                    commandStart = match.Index;
+                    break;
                 }
-                
             }
 
+            if (commandStart != -1 && (dialogueStart == -1 && dialogueEnd == -1))
+                return ("", "", rawline.Trim());
+
             //If we are here them we either have dialogue or a multi word argument in a command. Figure out if this is dialogue
-            if(dialogueStart != -1 && dialogueEnd != -1 && (commandStart == -1 || commandStart > dialogueEnd))
+            if (dialogueStart != -1 && dialogueEnd != -1 && (commandStart == -1 || commandStart > dialogueEnd))
             {
                 //We know that we have valid dialogue
                 speaker = rawline.Substring(0, dialogueStart).Trim();
@@ -79,7 +81,7 @@ namespace DIALOGUE
             }
             else
             {
-                speaker = rawline;
+                dialogue = rawline;
             }
 
             return (speaker, dialogue, commands);
