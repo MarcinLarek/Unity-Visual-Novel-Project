@@ -13,3 +13,5 @@ Line breakers
 {wa n}	= waint append number(time)
 
 speaker as characterName at 1:1 [0:Angle, 1:Happy] "segment{c}seg,emts" commands(args)
+
+[wait] - Before function to wait for completion before executing another

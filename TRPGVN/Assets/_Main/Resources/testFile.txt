@@ -1,15 +1,17 @@
 
-Affir "I'm testing the dialogue options" list(items -f long), playSong("Intro Song") -v 1)
+Affir "I'm testing the dialogue options" list(items -f long), playSong("Intro Song") -v 1), moveCharDemo(right)
 
 setScene("Classroom" -s 5.5)
 
 Affir "I hope \"it works\""
 
-Affir "First line""
+Affir "First line" moveCharDemo(left)
 
-"Second line""
+"Second line"
 
-"Third line""
+"Third line" [wait]moveCharDemo(right), moveCharDemo(left)
+
+print_1p("Dialogue file command")
 
 Ghoul "Aaahheeereee"
 
