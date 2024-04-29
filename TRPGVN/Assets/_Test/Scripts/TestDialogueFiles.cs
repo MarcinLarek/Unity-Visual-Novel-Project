@@ -4,36 +4,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.HableCurve;
 
-public class TestDialogueFiles : MonoBehaviour
+namespace TESTING
 {
-    [SerializeField] private TextAsset fileToRead = null;
-
-    // Start is called before the first frame update
-    void Start()
+    public class TestDialogueFiles : MonoBehaviour
     {
-        StartConversation();
+        [SerializeField] private TextAsset fileToRead = null;
 
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            StartConversation();
 
-    void StartConversation()
-    {
-        List<string> lines = FileManager.ReadTextAsset(fileToRead);
+        }
 
-        //foreach (string line in lines)
-        //{
-        //    if (string.IsNullOrWhiteSpace(line))
-        //        continue;
+        void StartConversation()
+        {
+            List<string> lines = FileManager.ReadTextAsset(fileToRead);
 
-        //    DIALOGUE_LINE dl = DialogueParser.Parse(line);
+            //foreach (string line in lines)
+            //{
+            //    if (string.IsNullOrWhiteSpace(line))
+            //        continue;
 
-        //    for (int i = 0; i < dl.commandData.commands.Count; i++)
-        //    {
-        //        DL_COMMAND_DATA.Command command = dl.commandData.commands[i];
-        //        Debug.Log($"Command [{i}] '{command.name}' has arguments [{string.Join(", ", command.arguments)}]");
-        //    }
+            //    DIALOGUE_LINE dl = DialogueParser.Parse(line);
 
-        //}
+            //    for (int i = 0; i < dl.commandData.commands.Count; i++)
+            //    {
+            //        DL_COMMAND_DATA.Command command = dl.commandData.commands[i];
+            //        Debug.Log($"Command [{i}] '{command.name}' has arguments [{string.Join(", ", command.arguments)}]");
+            //    }
 
-        DialogueSystem.instance.Say(lines);
+            //}
+
+            DialogueSystem.instance.Say(lines);
+        }
     }
 }
