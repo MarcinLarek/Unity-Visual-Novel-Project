@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CHARACTERS;
+using TMPro;
 
 namespace TESTING
 {
     public class TestCharacters : MonoBehaviour
     {
+
+        public TMP_FontAsset tempFont;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -28,8 +32,16 @@ namespace TESTING
                 "Line One",
                 "Line Two",
                 "Line Three",
-                "Line {wa 1}",
+                "Line",
             };
+
+            yield return Affir.Say(lines);
+            Affir.SetNameColor(Color.red);
+            Affir.SetDialogueColor(Color.green);
+            Affir.SetNameFont(tempFont);
+            Affir.SetDialogueFont(tempFont);
+            yield return Affir.Say(lines);
+            Affir.ResetConfigurationData();
             yield return Affir.Say(lines);
 
             lines = new List<string>()
