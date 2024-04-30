@@ -11,6 +11,8 @@ namespace TESTING
 
         public TMP_FontAsset tempFont;
 
+        private Character CreateCharacter(string name) => CharacterManager.instance.CreateCharacter(name);
+
         // Start is called before the first frame update
         void Start()
         {
@@ -24,14 +26,24 @@ namespace TESTING
 
         IEnumerator Test()
         {
-            yield return new WaitForSeconds(1f);
-            yield return new WaitForSeconds(1f);
-            Character Affir = CharacterManager.instance.CreateCharacter("Affir");
-            yield return new WaitForSeconds(1f);
-            yield return Affir.Hide();
-            yield return new WaitForSeconds(0.5f);
-            yield return Affir.Show();
-            yield return Affir.Say("TOO MUCH MAGIC");
+            Character Mercenary1 = CreateCharacter("Mercenary1 as Affir");
+            Character Mercenary2 = CreateCharacter("Mercenary2 as Affir");
+            Character Mercenary3 = CreateCharacter("Mercenaru3 as Affir");
+
+            Mercenary1.Show();
+            Mercenary2.Show();
+            Mercenary3.Show();
+
+            Mercenary1.SetDialogueFont(tempFont);
+            Mercenary1.SetNameFont(tempFont);
+            Mercenary2.SetDialogueColor(Color.cyan);
+            Mercenary3.SetNameColor(Color.red);
+
+            yield return Mercenary1.Say("Mercy Merc");
+            yield return Mercenary2.Say("No Mercy Merc");
+            yield return Mercenary3.Say("Merc Merc");
+
+            yield return null;
         }
 
         // Update is called once per frame

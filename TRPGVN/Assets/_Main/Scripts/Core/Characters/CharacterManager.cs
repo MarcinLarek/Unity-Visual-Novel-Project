@@ -12,6 +12,7 @@ namespace CHARACTERS
 
         private CharacterConfigSO config => DialogueSystem.instance.config.characterConfigurationAsset;
 
+        private const string CHARACTER_CASTING_ID = " as ";
         private const string CHARACTER_NAME_ID = "<charactername>";
         private string characterRootPath => $"Characters/{CHARACTER_NAME_ID}";
         private string characterPrefabPath => $"{characterRootPath}/Character - [{CHARACTER_NAME_ID}]";
@@ -60,11 +61,13 @@ namespace CHARACTERS
         {
             CHARACTER_INFO result = new CHARACTER_INFO();
 
-            result.name = characterName;
+            string[] nameData = characterName.Split(CHARACTER_CASTING_ID, System.StringSplitOptions.RemoveEmptyEntries);
+            result.name = nameData[0];
+            result.castinName = nameData.Length > 1 ? nameData[1] : result.name;
 
-            result.config = config.GetConfig(characterName);
+            result.config = config.GetConfig(result.castinName);
 
-            result.prefab = GetPrefabForCharacter(characterName);
+            result.prefab = GetPrefabForCharacter(result.castinName);
 
             return result;
         }
@@ -104,6 +107,7 @@ namespace CHARACTERS
         private class CHARACTER_INFO
         {
             public string name = "";
+            public string castinName = "";
             public CharacterConfigData config = null;
             public GameObject prefab = null;
         }
