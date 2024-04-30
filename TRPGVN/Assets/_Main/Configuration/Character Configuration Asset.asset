@@ -15,7 +15,7 @@ MonoBehaviour:
   characters:
   - name: Affir
     alias: Affir
-    characterType: 1
+    characterType: 2
     nameColor: {r: 0.2707369, g: 0.49056602, b: 0.28838497, a: 1}
     dialogueColor: {r: 1, g: 1, b: 1, a: 1}
     nameFont: {fileID: 11400000, guid: 0d3306d6da4ad0c449054e85e5e1ed93, type: 2}

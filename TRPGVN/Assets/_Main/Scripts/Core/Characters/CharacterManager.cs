@@ -12,6 +12,13 @@ namespace CHARACTERS
 
         private CharacterConfigSO config => DialogueSystem.instance.config.characterConfigurationAsset;
 
+        private const string CHARACTER_NAME_ID = "<charactername>";
+        private string characterRootPath => $"Characters/{CHARACTER_NAME_ID}";
+        private string characterPrefabPath => $"{characterRootPath}/Character - [{CHARACTER_NAME_ID}]";
+
+        [SerializeField]private RectTransform _characterpanel = null;
+        public RectTransform characterPanel => _characterpanel;
+
         private void Awake()
         {
             instance = this;
@@ -57,8 +64,18 @@ namespace CHARACTERS
 
             result.config = config.GetConfig(characterName);
 
+            result.prefab = GetPrefabForCharacter(characterName);
+
             return result;
         }
+
+        private GameObject GetPrefabForCharacter(string characterName)
+        {
+            string prefabPath = FormatCharacterPath(characterPrefabPath, characterName);
+            return Resources.Load<GameObject>(prefabPath);
+        }
+
+        private string FormatCharacterPath (string path, string characterName) => path.Replace(CHARACTER_NAME_ID, characterName);
 
         private Character CreateCharacterFromIfo(CHARACTER_INFO info)
         {
@@ -68,13 +85,17 @@ namespace CHARACTERS
             {
                 case Character.CharacterType.Text:
                     return new Character_Text(info.name, config);
+
                 case Character.CharacterType.Sprite:
                 case Character.CharacterType.SpriteSheet:
-                    return new Character_Sprite(info.name, config);
+                    return new Character_Sprite(info.name, config, info.prefab);
+
                 case Character.CharacterType.Live2D:
-                    return new Character_Live2D(info.name, config);
+                    return new Character_Live2D(info.name, config, info.prefab);
+
                 case Character.CharacterType.Model3D:
-                    return new Character_Model3D(info.name, config);
+                    return new Character_Model3D(info.name, config, info.prefab);
+
                 default:
                     return null;
             }
@@ -84,6 +105,7 @@ namespace CHARACTERS
         {
             public string name = "";
             public CharacterConfigData config = null;
+            public GameObject prefab = null;
         }
 
     }
