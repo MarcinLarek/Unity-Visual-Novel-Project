@@ -30,9 +30,18 @@ namespace TESTING
             Character Mercenary2 = CreateCharacter("Mercenary2 as Affir");
             Character Mercenary3 = CreateCharacter("Mercenaru3 as Affir");
 
-            Mercenary1.Show();
+            Mercenary1.SetPosition(Vector2.zero);
+            Mercenary2.SetPosition(new Vector2(0.5f, 0.5f));
+            Mercenary3.SetPosition(Vector2.one);
+
+            
             Mercenary2.Show();
             Mercenary3.Show();
+
+            yield return Mercenary1.Show();
+
+            yield return Mercenary1.MoveToPosition(Vector2.one, smooth: true);
+            yield return Mercenary1.MoveToPosition(Vector2.zero, smooth: true);            
 
             Mercenary1.SetDialogueFont(tempFont);
             Mercenary1.SetNameFont(tempFont);
