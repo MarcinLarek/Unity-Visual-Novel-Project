@@ -8,6 +8,8 @@ namespace CHARACTERS
 {
     public abstract class Character
     {
+        public const bool ENABLE_ON_START = true;
+
         public string name = "";
         public string displayname = "";
         public RectTransform root = null;

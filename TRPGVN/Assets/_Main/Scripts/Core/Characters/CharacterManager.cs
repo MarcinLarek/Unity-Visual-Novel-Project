@@ -69,6 +69,7 @@ namespace CHARACTERS
             result.config = config.GetConfig(result.castinName);
 
             result.prefab = GetPrefabForCharacter(result.castinName);
+            result.rootCharacterFolder = FormatCharacterPath(characterRootPathFormat, result.castinName);
 
             return result;
         }
@@ -92,13 +93,13 @@ namespace CHARACTERS
 
                 case Character.CharacterType.Sprite:
                 case Character.CharacterType.SpriteSheet:
-                    return new Character_Sprite(info.name, config, info.prefab);
+                    return new Character_Sprite(info.name, config, info.prefab, info.rootCharacterFolder);
 
                 case Character.CharacterType.Live2D:
-                    return new Character_Live2D(info.name, config, info.prefab);
+                    return new Character_Live2D(info.name, config, info.prefab, info.rootCharacterFolder);
 
                 case Character.CharacterType.Model3D:
-                    return new Character_Model3D(info.name, config, info.prefab);
+                    return new Character_Model3D(info.name, config, info.prefab, info.rootCharacterFolder);
 
                 default:
                     return null;
@@ -109,6 +110,7 @@ namespace CHARACTERS
         {
             public string name = "";
             public string castinName = "";
+            public string rootCharacterFolder = "";
             public CharacterConfigData config = null;
             public GameObject prefab = null;
         }
