@@ -32,14 +32,18 @@ namespace TESTING
 
             yield return new WaitForSeconds(1);
 
-            yield return Affir.TransitionColor(Color.red, speed: 0.3f);
-            yield return Affir.TransitionColor(Color.blue);
-            yield return Affir.TransitionColor(Color.yellow);
+            yield return Affir.UnHighlight();
+            yield return new WaitForSeconds(1);
+            yield return Affir.TransitionColor(Color.red);
+            yield return new WaitForSeconds(1);
+            yield return Affir.Highlight();
+            yield return new WaitForSeconds(1);
             yield return Affir.TransitionColor(Color.white);
 
 
-            Sprite s1 = Affir.GetSprite("Affir_Angry");
-            Affir.TransititionSprite(s1);
+
+            //Sprite s1 = Affir.GetSprite("Affir_Angry");
+            //Affir.TransititionSprite(s1);
 
             yield return null;
         }

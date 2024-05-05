@@ -113,8 +113,12 @@ namespace CHARACTERS
         public override void SetColor(Color color)
         {
             base.SetColor(color);
-            foreach(CharacterSpriteLayer layer in layers)
+
+            color = displaycolor;
+
+            foreach (CharacterSpriteLayer layer in layers)
             {
+                layer.StopChangingColor();
                 layer.SetColor(color);
             }
         }
@@ -127,12 +131,28 @@ namespace CHARACTERS
             yield return null;
 
             while(layers.Any(l => l.isChangingColor))
-            {
                 yield return null;
-            }
 
             co_changingColor = null;
 
         }
+
+
+        public override IEnumerator Highlighting(bool highlight, float speedMultiplier)
+        {
+            Color targetColor = displaycolor;
+
+            foreach (CharacterSpriteLayer layer in layers)
+                layer.TransitionColor(targetColor, speedMultiplier);
+
+            yield return null;
+
+            while (layers.Any(l => l.isChangingColor))
+                yield return null;
+
+            co_highlighting = null;
+        }
+
+
     }
 }
