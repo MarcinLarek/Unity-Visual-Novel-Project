@@ -1051,6 +1051,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1616605955}
     m_Modifications:
+    - target: {fileID: 2706882631448918529, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706882631448918529, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706882631448918529, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00012207031
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706882631448918529, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4129223869080545545, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1.4992676
+      objectReference: {fileID: 0}
+    - target: {fileID: 4129223869080545545, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -238.30994
+      objectReference: {fileID: 0}
     - target: {fileID: 4984311262423925706, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1135,6 +1159,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6022823589202052524, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.5007324
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022823589202052524, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.14013672
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255625367697243518, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3c3bf049d6f87d344b2f4cc9697ca9ab, type: 2}
     - target: {fileID: 6607337294149602773, guid: 9cc9a26a10e12954ba828d9411b1a064, type: 3}
       propertyPath: m_Name
       value: Character - [Affir]
