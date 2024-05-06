@@ -11,9 +11,12 @@ namespace TESTING
 
         public TMP_FontAsset tempFont;
 
+        private Character CreateCharacter(string name) => CharacterManager.instance.CreateCharacter(name);
+
         // Start is called before the first frame update
         void Start()
         {
+            //Character Affir = CharacterManager.instance.CreateCharacter("Affir");
             //Character Mercenary = CharacterManager.instance.CreateCharacter("Mercenary");
             //Character Affir2 = CharacterManager.instance.CreateCharacter("Affir");
             //Character Aiden = CharacterManager.instance.CreateCharacter("Aiden");
@@ -23,37 +26,41 @@ namespace TESTING
 
         IEnumerator Test()
         {
-            Character Affir = CharacterManager.instance.CreateCharacter("Affir");
-            Character Mercenary = CharacterManager.instance.CreateCharacter("Mercenary");
-            Character Aiden = CharacterManager.instance.CreateCharacter("Aiden");
+            Character_Sprite Affir = CharacterManager.instance.CreateCharacter("Affir") as Character_Sprite;
+            Character Mercenary1 = CreateCharacter("Mercenary1 as Affir");
+            Character Mercenary2 = CreateCharacter("Bob as Affir");
+            Character Mercenary3 = CreateCharacter("Mercenary3 as Affir");
 
-            List<string> lines = new List<string>()
-            {
-                "Line One",
-                "Line Two",
-                "Line Three",
-                "Line",
-            };
+            Affir.SetPosition(new Vector2(0.3f, 1));
+            Mercenary1.SetPosition(new Vector2(0.45f, 1));
+            Mercenary2.SetPosition(new Vector2(0.6f, 1));
+            Mercenary3.SetPosition(new Vector2(0.75f, 1));
 
-            yield return Affir.Say(lines);
-            Affir.SetNameColor(Color.red);
-            Affir.SetDialogueColor(Color.green);
-            Affir.SetNameFont(tempFont);
-            Affir.SetDialogueFont(tempFont);
-            yield return Affir.Say(lines);
-            Affir.ResetConfigurationData();
-            yield return Affir.Say(lines);
+            Mercenary1.SetColor(Color.red);
+            Mercenary2.SetColor(Color.green);
+            Mercenary3.SetColor(Color.blue);
 
-            lines = new List<string>()
-            {
-                "Merc Merc",
-                "Crem{c}Crem",
-            };
-            yield return Mercenary.Say(lines);
+            Affir.SetPriority(1000);
+            Mercenary1.SetPriority(15);
+            Mercenary2.SetPriority(8);
+            Mercenary3.SetPriority(30);
 
-            yield return Aiden.Say(" Floris ty kurwo");
+            yield return new WaitForSeconds(1);
 
-            Debug.Log("Finished");
+            Affir.Animate("Hop");
+            CharacterManager.instance.SortCharacters(new string[] { "Bob", "Affir" });
+
+            yield return new WaitForSeconds(1);
+
+            Affir.Animate("Shiver", true);
+            CharacterManager.instance.SortCharacters();
+
+            yield return new WaitForSeconds(1);
+
+            Affir.Animate("Shiver", false);
+            CharacterManager.instance.SortCharacters(new string[] { "Mercenary3", "Bob", "Mercenary1", "Affir" });
+
+            yield return null;
         }
 
         // Update is called once per frame
