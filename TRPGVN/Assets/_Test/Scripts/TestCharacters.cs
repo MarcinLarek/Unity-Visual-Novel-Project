@@ -47,14 +47,17 @@ namespace TESTING
 
             yield return new WaitForSeconds(1);
 
+            Affir.Animate("Hop");
             CharacterManager.instance.SortCharacters(new string[] { "Bob", "Affir" });
 
             yield return new WaitForSeconds(1);
 
+            Affir.Animate("Shiver", true);
             CharacterManager.instance.SortCharacters();
 
             yield return new WaitForSeconds(1);
 
+            Affir.Animate("Shiver", false);
             CharacterManager.instance.SortCharacters(new string[] { "Mercenary3", "Bob", "Mercenary1", "Affir" });
 
             yield return null;
