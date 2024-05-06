@@ -23,6 +23,7 @@ namespace CHARACTERS
         protected Color unhighlightedColor => new Color(color.r * UNHIGHLIGHTED_DARKEN_STRENGHT, color.g * UNHIGHLIGHTED_DARKEN_STRENGHT, color.b * UNHIGHLIGHTED_DARKEN_STRENGHT, color.a);
         public bool highlighted { get; protected set; } = true;
         protected bool facingLeft = DEFAULT_ORIENTATION_IS_FACING_LEFT;
+        public int priority { get; protected set; }
         protected CharacterManager characterManager => CharacterManager.instance;
         public DialogueSystem dialogueSytem => DialogueSystem.instance;
 
@@ -50,10 +51,8 @@ namespace CHARACTERS
             displayname = name;
             this.config = config;
 
-            Debug.Log("seekingForPrefab");
             if(prefab != null)
             {
-                Debug.Log("SpawningPrefab");
                 GameObject ob = Object.Instantiate(prefab, characterManager.characterPanel);
                 ob.name = characterManager.FormatCharacterPath(characterManager.characterPrefabNameFormat, name);
                 ob.SetActive(true);
@@ -244,11 +243,18 @@ namespace CHARACTERS
 
             return co_flipping;
         }
-
         public virtual IEnumerator FaceDirection(bool faceLeft, float speedMultiplier, bool immediate)
         {
             Debug.Log("Cannot flip a character of this type");
             yield return null;
+        }
+
+        public void SetPriority(int priority,bool autoSortCharactersOnUi = true)
+        {
+            this.priority = priority;
+
+            if (autoSortCharactersOnUi)
+                characterManager.SortCharacters();
         }
 
         public enum CharacterType

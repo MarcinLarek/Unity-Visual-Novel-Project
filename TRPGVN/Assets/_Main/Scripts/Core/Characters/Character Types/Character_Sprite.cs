@@ -26,8 +26,6 @@ namespace CHARACTERS
             artAssetsDirectory = rootAssetsFolder + "/Images";
 
             GetLayers();
-
-            Debug.Log($"Created Sprite CharacterL '{name}'");
         }
         private void GetLayers()
         {
