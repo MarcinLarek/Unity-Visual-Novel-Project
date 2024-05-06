@@ -29,7 +29,6 @@ namespace CHARACTERS
 
             Debug.Log($"Created Sprite CharacterL '{name}'");
         }
-
         private void GetLayers()
         {
             Transform rendererRoot = animator.transform.Find(SPRITE_RENDERERD_ARENT_NAME);
@@ -82,19 +81,16 @@ namespace CHARACTERS
                 return Resources.Load<Sprite>($"{artAssetsDirectory}/{spriteName}");
             }
         }
-
         public void SetSprite(Sprite sprite, int layer = 0)
         {
             layers[layer].SetSprite(sprite);
         }
-
         public Coroutine TransititionSprite(Sprite sprite, int layer=0, float speed = 1f) 
         {
             CharacterSpriteLayer spriteLayer = layers[layer];
 
             return spriteLayer.TransitionSprite(sprite, speed);
         }
-
         public override IEnumerator ShowingOrHiding(bool show)
         {
             float targetAlpha = show ? 1f : 0;
@@ -122,7 +118,6 @@ namespace CHARACTERS
                 layer.SetColor(color);
             }
         }
-
         public override IEnumerator ChangingColor(Color color, float speed)
         {
             foreach (CharacterSpriteLayer layer in layers)
@@ -136,8 +131,6 @@ namespace CHARACTERS
             co_changingColor = null;
 
         }
-
-
         public override IEnumerator Highlighting(bool highlight, float speedMultiplier)
         {
             Color targetColor = displaycolor;
@@ -153,6 +146,22 @@ namespace CHARACTERS
             co_highlighting = null;
         }
 
+        public override IEnumerator FaceDirection(bool faceLeft, float speedMultiplier, bool immediate)
+        {
+            foreach (CharacterSpriteLayer layer in layers)
+            {
+                if(!faceLeft)
+                    layer.FaceLeft(speedMultiplier, immediate);
+                else
+                    layer.FaceRight(speedMultiplier, immediate);
+            }
 
+            yield return null;
+
+            while (layers.Any(l => l.iSFlipping))
+                yield return null;
+
+            co_flipping = null;
+        }
     }
 }

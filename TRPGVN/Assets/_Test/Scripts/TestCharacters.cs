@@ -32,6 +32,14 @@ namespace TESTING
 
             yield return new WaitForSeconds(1);
 
+            yield return Affir.Flip();
+            
+            yield return new WaitForSeconds(1);
+
+            yield return Affir.Flip(immediate: true);
+
+            yield return new WaitForSeconds(1);
+
             yield return Affir.UnHighlight();
             yield return new WaitForSeconds(1);
             yield return Affir.TransitionColor(Color.red);
