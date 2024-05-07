@@ -1,26 +1,7 @@
 
-Affir "I'm testing the dialogue options" list(items -f long), playSong("Intro Song") -v 1), moveCharDemo(right)
+Affir "I'm testing the dialogue options"
 
-setScene("Classroom" -s 5.5)
+enter Affir as ??? at 1 [Affir_Happy] "I hope \"it works\""
 
-Affir "I hope \"it works\""
+Affir "First line"
 
-Affir "First line" moveCharDemo(left)
-
-"Second line"
-
-"Third line" [wait]moveCharDemo(right), moveCharDemo(left)
-
-print_1p("Dialogue file command")
-
-Ghoul "Aaahheeereee"
-
-"First Segment {c} Second segment {a} Third segment {wa 1} Fourth segment {wc 3} Fifth segment"
-
-Affir as Mercenary [0:Angel, 1:Happy] at 0.5:0.5 "It works" PlaySong(End, -p 0.5), list(players, saveGame(1 -g all -f simple)
-
-Narrator "So be it"
-
-Affir "Dubi dubi du ba, dubi dubi du ba"
-
-"Agent P!"

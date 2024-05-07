@@ -83,7 +83,7 @@ namespace CHARACTERS
         {
             layers[layer].SetSprite(sprite);
         }
-        public Coroutine TransititionSprite(Sprite sprite, int layer=0, float speed = 1f) 
+        public Coroutine TransitionSprite(Sprite sprite, int layer=0, float speed = 1f) 
         {
             CharacterSpriteLayer spriteLayer = layers[layer];
 
@@ -160,6 +160,20 @@ namespace CHARACTERS
                 yield return null;
 
             co_flipping = null;
+        }
+
+        public override void OnReceiveCastingExpression(int layer, string expression)
+        {
+            Sprite sprite = GetSprite(expression);
+
+            if (sprite == null)
+            {
+                Debug.LogWarning($"Sprite '{expression}' could not be found for character '{name}'");
+                return;
+            }
+
+            Debug.Log($"sprite - {sprite}, layer - {layer}");
+            TransitionSprite(sprite, layer);
         }
     }
 }
