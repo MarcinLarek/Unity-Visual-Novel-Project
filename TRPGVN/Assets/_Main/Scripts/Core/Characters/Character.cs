@@ -41,7 +41,7 @@ namespace CHARACTERS
         public bool isChangingColor => co_changingColor != null;
         public bool isHighlighting => (highlighted && co_highlighting != null);
         public bool isUnHighlighting => (!highlighted && co_highlighting != null);
-        public virtual bool isVisible => false;
+        public virtual bool isVisible { get; set; } = false;
         public bool isFacingLeft => facingLeft;
         public bool isFacingRight => !facingLeft;
         public bool isFlipping => co_flipping != null;
@@ -262,7 +262,6 @@ namespace CHARACTERS
         {
             animator.SetTrigger(animation);
         }
-
         public void Animate(string animation, bool state)
         {
             animator.SetBool(animation, state);
@@ -273,7 +272,6 @@ namespace CHARACTERS
         {
             return;
         }
-
         public virtual void OnReceiveCastingExpression(int layer, string expression)
         {
             return;
