@@ -89,14 +89,14 @@ namespace CHARACTERS
 
             return spriteLayer.TransitionSprite(sprite, speed);
         }
-        public override IEnumerator ShowingOrHiding(bool show)
+        public override IEnumerator ShowingOrHiding(bool show, float speedMultiplier = 1f)
         {
             float targetAlpha = show ? 1f : 0;
             CanvasGroup self = rootCG;
             
             while (self.alpha != targetAlpha)
             {
-                self.alpha = Mathf.MoveTowards(self.alpha, targetAlpha, 3f * Time.deltaTime);
+                self.alpha = Mathf.MoveTowards(self.alpha, targetAlpha, 3f * Time.deltaTime * speedMultiplier);
                 yield return null;
             }
 
@@ -174,6 +174,20 @@ namespace CHARACTERS
 
             Debug.Log($"sprite - {sprite}, layer - {layer}");
             TransitionSprite(sprite, layer);
+        }
+
+        public override void SetVisiblity(bool visible)
+        {
+            if (visible)
+            {
+                isVisible = true;
+                rootCG.alpha = 1;
+            }
+            else
+            {
+                isVisible = false;
+                rootCG.alpha = 0;
+            }
         }
     }
 }

@@ -31,6 +31,7 @@ namespace DIALOGUE
             StopConversation();
 
             process = dialogueSystem.StartCoroutine(RunningConversation(conversation));
+
             return process;
         }
 
@@ -63,7 +64,10 @@ namespace DIALOGUE
 
                 //Wait for user input
                 if (line.hasDialogue)
+                {
                     yield return WiatForUserInput();
+                    CommandManager.instance.StopAllProcesses();
+                }
 
             }
         }
@@ -111,7 +115,18 @@ namespace DIALOGUE
             foreach(DL_COMMAND_DATA.Command command in commands)
             {
                 if (command.waitForCompletion || command.name == "wait")
-                    yield return CommandManager.instance.Execute(command.name, command.arguments);
+                {
+                    CoroutineWrapper cw = CommandManager.instance.Execute(command.name, command.arguments);
+                    while (!cw.IsDone)
+                    {
+                        if (userPrompt)
+                        {
+                            CommandManager.instance.StopCurrentProcess();
+                            userPrompt = false;
+                        }
+                        yield return null;
+                    }
+                }
                 else
                     CommandManager.instance.Execute(command.name, command.arguments);
             }

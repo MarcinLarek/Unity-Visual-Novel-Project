@@ -1,13 +1,23 @@
-wait(1), CreateCharacter(Affir -e true), CreateCharacter("Affir2 as Affir" -e true), CreateCharacter("Affir3 as Affir" -e true -i true)
+wait(5), CreateCharacter(Affir -e true), CreateCharacter("Affir2 as Affir" -e true), CreateCharacter("Affir3 as Affir" -e true -i true)
 
-MoveCharacter(Affir 0 -0.25 0.5 false), MoveCharacter(Affir2 -x 1 -y 1 -spd 1 -sm true), 
+[wait]MoveCharacter(Affir 0 -0.25 0.5 false), MoveCharacter(Affir2 -x 1 -y 1 -spd 1 -sm true), 
 
+Affir "I'm testing the dialogue options #1"
 
-Show(Affir Affir2 Affir3 -immediate false)
+Show(Affir3 -immediate false -spd 0.1)
 
-Affir "I'm testing the dialogue options"
+Affir "I'm testing the dialogue options #2"
 
 enter Affir as ??? at 1 [Affir_Happy] "I hope \"it works\""
 
 Affir "First line"
 
+Hide(Affir3 -immediate false -spd 0.1)
+Affir "Second line"
+
+Show(Affir3 -immediate false -spd 0.1)
+Affir "Third line"
+
+Affir "4th line"
+
+Affir "5th line"
