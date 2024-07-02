@@ -6,13 +6,22 @@ using System.Linq;
 using System;
 using System.Collections.Specialized;
 using UnityEngine.Events;
+using CHARACTERS;
 
 namespace COMMANDS
 {
     public class CommandManager : MonoBehaviour
     {
+        private const char SUB_COMMAND_IDENTIFIER = '.';
+        public const string DATABASE_CHARACTERS_BASE = "characters";
+        public const string DATABASE_CHARACTERS_SPRITE = "characters_sprite";
+        public const string DATABASE_CHARACTERS_LIVE2D = "characters_live2D";
+        public const string DATABASE_CHARACTERS_MODEL3D = "characters_model3D";
+
         public static CommandManager instance { get; private set; }
+
         private CommandDatabase database;
+        private Dictionary<string, CommandDatabase> subDatabases = new Dictionary<string, CommandDatabase>();
 
         private List<CommandProcess> activeProcesses = new List<CommandProcess>();
         private CommandProcess topProcess => activeProcesses.Last();
@@ -41,6 +50,9 @@ namespace COMMANDS
 
         public CoroutineWrapper Execute(string commandName, params string[] args)
         {
+            if (commandName.Contains(SUB_COMMAND_IDENTIFIER))
+                return ExecuteSubCommand(commandName, args);
+
             Delegate command = database.GetCommand(commandName);
 
             if (command == null)
@@ -48,6 +60,78 @@ namespace COMMANDS
 
             return StartProcess(commandName, command, args);
 
+        }
+
+        private CoroutineWrapper ExecuteSubCommand(string commandName, string[] args)
+        {
+            string[] parts = commandName.Split(SUB_COMMAND_IDENTIFIER);
+            string databaseName = string.Join(SUB_COMMAND_IDENTIFIER, parts.Take(parts.Length - 1));
+            string subCommandName = parts.Last();
+
+            if (subDatabases.ContainsKey(databaseName))
+            {
+                Delegate command = subDatabases[databaseName].GetCommand(subCommandName);
+                if(command != null)
+                {
+                    return StartProcess(commandName, command, args);
+                }
+                else
+                {
+                    Debug.LogError($"No command name '{subCommandName}' was found in sub database '{databaseName}'");
+                    return null;
+                }
+            }
+
+            string characterName = databaseName;
+            //If we've made it here then we should try to run as a charactrer command
+            if (CharacterManager.instance.HasCharacter(databaseName))
+            {
+                List<string> newArgs = new List<string>(args);
+                newArgs.Insert(0, characterName);
+                //Debug.Log($"args = {string.Join("", args)} newargs = {string.Join("", newArgs.ToArray())}");
+                args = newArgs.ToArray();
+
+                return ExecuteCharacterCommand(subCommandName, args);
+            }
+
+            Debug.LogError($"No sub database called '{databaseName}' exists! Command '{subCommandName}' could not be run");
+            return null;
+        }
+
+        private CoroutineWrapper ExecuteCharacterCommand(string commandName, params string[] args)
+        {
+            Delegate command = null;
+            CommandDatabase db = subDatabases[DATABASE_CHARACTERS_BASE];
+            if (db.HasCommand(commandName))
+            {
+                command = db.GetCommand(commandName);
+                return StartProcess(commandName, command, args);
+            }
+
+            CharacterConfigData characterConfigData = CharacterManager.instance.GetCharacterConfig(args[0]);
+            switch (characterConfigData.characterType)
+            {
+                case Character.CharacterType.Sprite:
+                case Character.CharacterType.SpriteSheet:
+                    db = subDatabases[DATABASE_CHARACTERS_SPRITE];
+                    break;
+                case Character.CharacterType.Live2D:
+                    db = subDatabases[DATABASE_CHARACTERS_LIVE2D];
+                    break;
+                case Character.CharacterType.Model3D:
+                    db = subDatabases[DATABASE_CHARACTERS_MODEL3D];
+                    break;
+                default:
+                    break;
+            }
+
+            command = db.GetCommand(commandName);
+
+            if (command != null)
+                return StartProcess(commandName, command, args);
+
+            Debug.LogError($"Command Manager was unable to execute command '{commandName}' on character '{args[0]}'. The character name or command may be invalid");
+            return null;
         }
 
         private CoroutineWrapper StartProcess(string commandName, Delegate command, string[] args)
@@ -130,6 +214,21 @@ namespace COMMANDS
             process.onTerminateAction = new UnityEvent();
             process.onTerminateAction.AddListener(action);
 
+        }
+
+        public CommandDatabase CreateSubDatabase(string name)
+        {
+            name = name.ToLower();
+            if (subDatabases.TryGetValue(name, out CommandDatabase db))
+            {
+                Debug.LogWarning($"A database by the name of '{name}' already exists");
+                return db;
+            }
+
+            CommandDatabase newDatabase = new CommandDatabase();
+            subDatabases.Add(name, newDatabase);
+
+            return newDatabase;
         }
 
     }

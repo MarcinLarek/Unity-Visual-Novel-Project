@@ -23,6 +23,10 @@ namespace COMMANDS
             database.AddCommand("movecharacter", new Func<string[], IEnumerator>(MoveCharacter));
             database.AddCommand("show", new Func<string[], IEnumerator>(ShowAll));
             database.AddCommand("hide", new Func<string[], IEnumerator>(HideAll));
+
+            //Add commands to characters (Using Affir.Move etc.)
+            CommandDatabase baseCommands = CommandManager.instance.CreateSubDatabase(CommandManager.DATABASE_CHARACTERS_BASE);
+            baseCommands.AddCommand("move", new Func<string[], IEnumerator>(MoveCharacter));
         }
 
         public static void CreateCharacter(string[] data)
