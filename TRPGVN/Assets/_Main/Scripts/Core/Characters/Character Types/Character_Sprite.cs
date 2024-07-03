@@ -129,12 +129,17 @@ namespace CHARACTERS
             co_changingColor = null;
 
         }
-        public override IEnumerator Highlighting(bool highlight, float speedMultiplier)
+        public override IEnumerator Highlighting(float speedMultiplier, bool immediate = false)
         {
             Color targetColor = displaycolor;
 
             foreach (CharacterSpriteLayer layer in layers)
-                layer.TransitionColor(targetColor, speedMultiplier);
+            {
+                if (immediate)
+                    layer.SetColor(displaycolor);
+                else
+                    layer.TransitionColor(targetColor, speedMultiplier);
+            }
 
             yield return null;
 

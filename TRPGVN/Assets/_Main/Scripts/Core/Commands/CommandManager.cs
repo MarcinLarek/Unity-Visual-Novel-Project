@@ -88,7 +88,6 @@ namespace COMMANDS
             {
                 List<string> newArgs = new List<string>(args);
                 newArgs.Insert(0, characterName);
-                //Debug.Log($"args = {string.Join("", args)} newargs = {string.Join("", newArgs.ToArray())}");
                 args = newArgs.ToArray();
 
                 return ExecuteCharacterCommand(subCommandName, args);

@@ -9,9 +9,9 @@ public class CommandParameters
     private Dictionary<string, string> parameters = new Dictionary<string, string>();
     private List<string> unlabeledParameters = new List<string>();
 
-    public CommandParameters(string[] parameterArray)
+    public CommandParameters(string[] parameterArray, int startingIndex = 0)
     {
-        for (int i = 0; i < parameterArray.Length; i++)
+        for (int i = startingIndex; i < parameterArray.Length; i++)
         {
             if (parameterArray[i].StartsWith(PARAMETER_IDENTIFIER) && !float.TryParse(parameterArray[i], out _))
             {

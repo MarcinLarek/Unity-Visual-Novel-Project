@@ -9,6 +9,8 @@ namespace CHARACTERS
     public class CharacterManager : MonoBehaviour
     {
         public static CharacterManager instance { get; private set; }
+
+        public Character[] allCharacters => characters.Values.ToArray();
         private Dictionary<string, Character> characters = new Dictionary<string, Character>();
 
         private CharacterConfigSO config => DialogueSystem.instance.config.characterConfigurationAsset;

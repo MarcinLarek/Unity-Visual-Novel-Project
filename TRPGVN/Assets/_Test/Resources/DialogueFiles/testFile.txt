@@ -1,6 +1,42 @@
-CreateCharacter(Affir -e true -i true)
-Show(Affir)
-Affir "Affir Showing"
+CreateCharacter(Affir -e true -i true), Show(Affir)
+CreateCharacter("Affir2 as Affir" -e true -i true), Affir2.SetColor(red), Show(Affir2), MoveCharacter(Affir2 0.2 1)
+CreateCharacter("Affir3 as Affir" -e true -i true), Affir3.SetColor(green), Show(Affir3), MoveCharacter(Affir3 0.7 1)
+
+Affir "Affirs Showing"
+
+Affir.SetSprite(Affir_Happy -spd 0.5)
+wait(1)
+Affir.SetSprite(Affir_Angry)
+wait(1)
+
+
+Affir "First Stop"
+
+[wait]Highlight(Affir -o true)
+wait(1)
+[wait]Unhighlight(affir  -o true)
+wait(1)
+
+
+Affir "WAIT!"
+
+wait(1)
+Affir.SetPriority(1)
+wait(1)
+Affir2.SetPriority(2)
+wait(1)
+Affir.SetPriority(3)
+wait(1)
+Affir2.SetPriority(4)
+
+
+
+Affir "Pause"
+wait(2)
+Sort(Affir Affir2)
+
+
+
 
 [wait]MoveCharacter(Affir 0 1)
 Affir "Affir move to Left"
