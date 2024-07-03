@@ -1,26 +1,69 @@
+CreateCharacter(Affir -e true -i true), Show(Affir)
+CreateCharacter("Affir2 as Affir" -e true -i true), Affir2.SetColor(red), Show(Affir2), MoveCharacter(Affir2 0.2 1)
+CreateCharacter("Affir3 as Affir" -e true -i true), Affir3.SetColor(green), Show(Affir3), MoveCharacter(Affir3 0.7 1)
 
-Affir "I'm testing the dialogue options" list(items -f long), playSong("Intro Song") -v 1), moveCharDemo(right)
+Affir "Affirs Showing"
 
-setScene("Classroom" -s 5.5)
+Affir.SetSprite(Affir_Happy -spd 0.5)
+wait(1)
+Affir.SetSprite(Affir_Angry)
+wait(1)
 
-Affir "I hope \"it works\""
 
-Affir "First line" moveCharDemo(left)
+Affir "First Stop"
 
-"Second line"
+[wait]Highlight(Affir -o true)
+wait(1)
+[wait]Unhighlight(affir  -o true)
+wait(1)
 
-"Third line" [wait]moveCharDemo(right), moveCharDemo(left)
 
-print_1p("Dialogue file command")
+Affir "WAIT!"
 
-Ghoul "Aaahheeereee"
+wait(1)
+Affir.SetPriority(1)
+wait(1)
+Affir2.SetPriority(2)
+wait(1)
+Affir.SetPriority(3)
+wait(1)
+Affir2.SetPriority(4)
 
-"First Segment {c} Second segment {a} Third segment {wa 1} Fourth segment {wc 3} Fifth segment"
 
-Affir as Mercenary [0:Angel, 1:Happy] at 0.5:0.5 "It works" PlaySong(End, -p 0.5), list(players, saveGame(1 -g all -f simple)
 
-Narrator "So be it"
+Affir "Pause"
+wait(2)
+Sort(Affir Affir2)
 
-Affir "Dubi dubi du ba, dubi dubi du ba"
 
-"Agent P!"
+
+
+[wait]MoveCharacter(Affir 0 1)
+Affir "Affir move to Left"
+
+[wait]MoveCharacter(Affir 1 1)
+Affir "Affir move to Right"
+
+[wait]MoveCharacter(Affir 0 1)
+Affir "Affir move to Left"
+
+[wait]MoveCharacter(Affir 1 1)
+Affir "Affir move to Right"
+
+Affir "STOP, CHANGE"
+
+[wait]Affir.Move(0 1)
+Affir "Affir move to Left"
+
+[wait]Affir.Move(0 1)
+Affir "Affir move to Right"
+
+[wait]Affir.Move(0 1)
+Affir "Affir move to Left"
+
+[wait]Affir.Move(1 1)
+Affir "Affir move to Right"
+
+
+
+
