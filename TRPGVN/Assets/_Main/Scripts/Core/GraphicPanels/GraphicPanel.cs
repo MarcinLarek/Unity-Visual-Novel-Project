@@ -24,7 +24,6 @@ public class GraphicPanel
 
         return null;
     }
-
     private GraphicLayer CreateLayer(int layerDepth)
     {
         GraphicLayer layer = new GraphicLayer();
@@ -52,5 +51,10 @@ public class GraphicPanel
 
         return layer;
 
+    }
+    public void Clear()
+    {
+        foreach(var layer in layers)
+            layer.Clear();
     }
 }

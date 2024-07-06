@@ -2242,6 +2242,10 @@ MonoBehaviour:
   allPanels:
   - panelName: Background
     rootPanel: {fileID: 1232548351}
+  - panelName: Cinematic
+    rootPanel: {fileID: 732446885}
+  - panelName: Foreground
+    rootPanel: {fileID: 1276949293}
 --- !u!1 &1275802412
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,9 @@ public class GraphicObject
     private const string Material_FIELD_BLEND =     "_Blend";
     private const string Material_FIELD_ALPHA =     "_Alpha";
     public RawImage renderer;
+
+    private GraphicLayer layer; 
+
     public bool isVideo { get { return video != null; } }
     public VideoPlayer video = null;
     public AudioSource audio = null;
@@ -28,6 +31,7 @@ public class GraphicObject
     public GraphicObject(GraphicLayer layer, string graphicPath, Texture tex)
     {
         this.graphicPath = graphicPath;
+        this.layer = layer;
 
         GameObject ob = new GameObject();
         ob.transform.SetParent(layer.panel);
@@ -44,6 +48,7 @@ public class GraphicObject
     public GraphicObject(GraphicLayer layer, string graphicPath, VideoClip clip, bool useAudio)
     {
         this.graphicPath = graphicPath;
+        this.layer = layer;
 
         GameObject ob = new GameObject();
         ob.transform.SetParent(layer.panel);
@@ -113,7 +118,7 @@ public class GraphicObject
 
     GraphicPanelManager panelManager => GraphicPanelManager.instance;
 
-    public Coroutine FadeIn(float speed, Texture blend = null)
+    public Coroutine FadeIn(float speed = 1f, Texture blend = null)
     {
         if (co_fadingOut != null)
             panelManager.StopCoroutine(co_fadingOut);
@@ -125,7 +130,7 @@ public class GraphicObject
 
         return co_fadingIn;
     }
-    public Coroutine FadeOut(float speed, Texture blend = null)
+    public Coroutine FadeOut(float speed = 1f, Texture blend = null)
     {
         if (co_fadingIn != null)
             panelManager.StopCoroutine(co_fadingIn);
@@ -163,5 +168,24 @@ public class GraphicObject
 
         co_fadingIn = null;
         co_fadingOut = null;
+
+        if (target == 0)
+            Destroy();
+        else
+            DestroyBackgroundGraphicsOnLayer();
     }
+
+    private void Destroy()
+    {
+        if (layer.currentGraphic != null && layer.currentGraphic.renderer == renderer)
+            layer.currentGraphic = null;
+
+        Object.Destroy(renderer.gameObject);
+    }
+
+    private void DestroyBackgroundGraphicsOnLayer()
+    {
+        layer.DestroyOldGraphics();
+    }
+
 }
