@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using static System.Net.Mime.MediaTypeNames;
 
 public class GraphicObject
 {
@@ -33,12 +34,54 @@ public class GraphicObject
         renderer = ob.AddComponent<RawImage>();
 
         graphicName = tex.name;
+        renderer.name = string.Format(NAME_FORMAT, graphicName);
 
         InitGraphic();
 
+        renderer.material.SetTexture(Material_FIELD_MAINTEX, tex);
+    }
+
+    public GraphicObject(GraphicLayer layer, string graphicPath, VideoClip clip, bool useAudio)
+    {
+        this.graphicPath = graphicPath;
+
+        GameObject ob = new GameObject();
+        ob.transform.SetParent(layer.panel);
+        renderer = ob.AddComponent<RawImage>();
+
+        graphicName = clip.name;
         renderer.name = string.Format(NAME_FORMAT, graphicName);
 
+        InitGraphic();
+
+        RenderTexture tex = new RenderTexture(Mathf.RoundToInt(clip.width), Mathf.RoundToInt(clip.height), 0);
+
         renderer.material.SetTexture(Material_FIELD_MAINTEX, tex);
+        video = renderer.AddComponent<VideoPlayer>();
+        video.playOnAwake = true;
+        video.source = VideoSource.VideoClip;
+
+        video.clip = clip;
+        video.renderMode = VideoRenderMode.RenderTexture;
+        video.targetTexture = tex;
+        video.isLooping = true;
+
+        video.audioOutputMode = VideoAudioOutputMode.AudioSource;
+        audio = video.AddComponent<AudioSource>();
+
+        audio.volume = 0;
+        if (!useAudio)
+            audio.mute = true;
+
+        video.SetTargetAudioSource(0, audio);
+
+        video.frame = 0;
+        video.Prepare();
+        video.Play();
+
+        //Fixing missing audio/video link
+        video.enabled = false;
+        video.enabled = true;
     }
 
     private void InitGraphic()
@@ -111,6 +154,10 @@ public class GraphicObject
         {
             float opacity = Mathf.MoveTowards(renderer.material.GetFloat(opacityParam), target, speed * Time.deltaTime * defaultTranstion);
             renderer.material.SetFloat(opacityParam, opacity);
+
+            if (isVideo)
+                audio.volume = opacity;
+
             yield return null;
         }
 

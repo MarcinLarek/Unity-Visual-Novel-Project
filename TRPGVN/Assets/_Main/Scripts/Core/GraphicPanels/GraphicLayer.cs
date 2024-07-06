@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class GraphicLayer
 {
@@ -22,22 +23,38 @@ public class GraphicLayer
 
         SetTexture(tex,transitionSpeed,blendingTexture, filePath);
     }
-
     public void SetTexture(Texture tex, float transitionSpeed = 1f, Texture blendingTexture = null,string filepath = "")
     {
         CreateGraphic(tex, transitionSpeed, filepath, blendingTexture: blendingTexture);
-
     }
+    public void SetVideo(string filePath, float transitionSpeed = 1f, bool useAudio = true, Texture blendingTexture = null)
+    {
+        VideoClip clip = Resources.Load<VideoClip>(filePath);
 
+        if (clip == null)
+        {
+            Debug.LogError($"Could not load graphic video from path '{filePath}.' Please ensure it exists within Resources");
+            return;
+        }
+
+        SetVideo(clip, transitionSpeed, useAudio, blendingTexture, filePath);
+    }
+    public void SetVideo(VideoClip video, float transitionSpeed = 1f, bool useAudio = true, Texture blendingTexture = null, string filepath = "")
+    {
+        CreateGraphic(video, transitionSpeed, filepath,useAudio, blendingTexture: blendingTexture);
+    }
     private void CreateGraphic<T>(T graphicData, float transitionSpeed, string filePath, bool useAudioForVideo = true, Texture blendingTexture = null)
     {
         GraphicObject newGraphic = null;
 
         if (graphicData is Texture)
             newGraphic = new GraphicObject(this, filePath, graphicData as Texture);
+        else if (graphicData is VideoClip)
+            newGraphic = new GraphicObject(this, filePath, graphicData as VideoClip, useAudioForVideo);
 
         currentGraphic = newGraphic;
 
         currentGraphic.FadeIn(transitionSpeed, blendingTexture);
     }
+
 }
