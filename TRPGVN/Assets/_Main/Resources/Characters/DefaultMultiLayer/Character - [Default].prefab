@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 3909966252522336804}
   - component: {fileID: 4059746393266903130}
   m_Layer: 5
-  m_Name: Character - [Affir]
+  m_Name: Character - [Default]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
