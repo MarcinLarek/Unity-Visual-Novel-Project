@@ -1,8 +1,17 @@
+wait(1)
+SetLayerMedia(background "Fantasy Landscape" -aud true -spd 0.7 -blend hurricane -i true)
+
 CreateCharacter(Affir -e true -i true), Show(Affir)
 CreateCharacter("Affir2 as Affir" -e true -i true), Affir2.SetColor(red), Show(Affir2), MoveCharacter(Affir2 0.2 1)
 CreateCharacter("Affir3 as Affir" -e true -i true), Affir3.SetColor(green), Show(Affir3), MoveCharacter(Affir3 0.7 1)
 
 Affir "Affirs Showing"
+
+SetLayerMedia(cinematic -m "~/Graphics/Gallery/flower")
+
+
+
+
 
 Affir.SetSprite(Affir_Happy -spd 0.5)
 wait(1)
