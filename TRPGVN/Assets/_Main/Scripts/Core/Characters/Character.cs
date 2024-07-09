@@ -102,13 +102,13 @@ namespace CHARACTERS
         }
         public virtual IEnumerator ShowingOrHiding(bool show, float speedMultiplier = 1f)
         {
-            Debug.Log("Show/Hide cannot be called from a base character type.");
+            Debug.LogWarning("Show/Hide cannot be called from a base character type.");
             yield return null;
         }
 
         public virtual void SetVisiblity(bool visible)
         {
-            Debug.Log("Cant set visibility for this character");
+            Debug.LogWarning("Cant set visibility for this character");
         }
 
         public virtual void SetPosition(Vector2 position)
@@ -154,7 +154,6 @@ namespace CHARACTERS
 
                 yield return null;
             }
-            Debug.Log("Done moving");
             co_moving = null;
         }
         protected (Vector2, Vector2) ConvertUITargetPositionToRelativeCharacterAnchorTargets(Vector2 position)
@@ -186,7 +185,7 @@ namespace CHARACTERS
         }
         public virtual IEnumerator ChangingColor(Color color, float speed)
         {
-            Debug.Log("SetColor changing is not applicable on this character type");
+            Debug.LogWarning("SetColor changing is not applicable on this character type");
             yield return null;
         }
         public Coroutine Highlight(float speed = 1f, bool immediate = false)
@@ -218,7 +217,7 @@ namespace CHARACTERS
         }
         public virtual IEnumerator Highlighting(float speedMultiplier, bool immediate = false)
         {
-            Debug.Log("Highlighting is not applicable on this character type");
+            Debug.LogWarning("Highlighting is not applicable on this character type");
             yield return null;
         }
 
@@ -251,7 +250,7 @@ namespace CHARACTERS
         }
         public virtual IEnumerator FaceDirection(bool faceLeft, float speedMultiplier, bool immediate)
         {
-            Debug.Log("Cannot flip a character of this type");
+            Debug.LogWarning("Cannot flip a character of this type");
             yield return null;
         }
 

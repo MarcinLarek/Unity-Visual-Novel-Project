@@ -177,7 +177,6 @@ namespace CHARACTERS
                 return;
             }
 
-            Debug.Log($"sprite - {sprite}, layer - {layer}");
             TransitionSprite(sprite, layer);
         }
 
