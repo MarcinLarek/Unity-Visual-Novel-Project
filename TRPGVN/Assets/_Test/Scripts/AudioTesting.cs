@@ -18,16 +18,19 @@ namespace TESTING
         IEnumerator Running()
         {
             Character_Sprite Affir = CreateCharacter("Affir") as Character_Sprite;
+            Character me = CreateCharacter("ME");
 
             yield return new WaitForSeconds(0.5f);
 
             AudioManager.instance.PlaySoundEffect("Audio/SFX/RadioStatic", loop: true);
 
-            yield return Affir.Say("I'm hoing to turn off the radio.");
+            yield return me.Say("Turn off the radio.");
 
             AudioManager.instance.StopSoundEffect("RadioStatic");
+            AudioManager.instance.PlayVoice("Audio/Voices/exclamation");
 
-            yield return Affir.Say("Its off now");
+
+            yield return Affir.Say("ok");
 
 
 
