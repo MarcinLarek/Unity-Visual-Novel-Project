@@ -7,9 +7,11 @@ public class AudioManager : MonoBehaviour
 {
     private const string SFX_PARENT_NAME = "SFX";
     private const string SFX_NAME_FORMAT = "SFX - [{0}]";
-
+    public const float TRACK_TRANSITION_SPEED = 1f;
 
     public static AudioManager instance { get; private set; }
+
+    public Dictionary <int, AudioChannel> channels = new Dictionary<int, AudioChannel>();
 
     public AudioMixerGroup musicMixer;
     public AudioMixerGroup ambienceMixer;
@@ -102,6 +104,44 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public AudioTrack PlayTrack(string filePath, int channel = 0, bool loop = true, float startingVolume = 0f, float volumeCap = 1f, bool ambience = false)
+    {
+        AudioClip clip = Resources.Load<AudioClip>(filePath);
 
+        if (clip == null)
+        {
+            Debug.LogError($"Could not load audio file '{filePath}'. Please make sure this exists in the Resources directory! ");
+            return null;
+        }
+
+        return PlayTrack(clip, channel, loop, startingVolume, volumeCap, filePath, ambience);
+    }
+    public AudioTrack PlayTrack(AudioClip clip, int channel = 0, bool loop = true, float startingVolume = 0f, float volumeCap = 1f, string filePath = "", bool ambience = false)
+    {
+        AudioChannel audioChannel = TryGetChannel(channel, createIfDoesNotExist: true);
+        AudioTrack track;
+
+        if (ambience)
+            track = audioChannel.PlayTrack(clip, loop, startingVolume, volumeCap, filePath, ambienceMixer);
+        else
+            track = audioChannel.PlayTrack(clip, loop, startingVolume, volumeCap, filePath, musicMixer);
+
+        return track;
+    }
+
+    public AudioChannel TryGetChannel(int channelNumber, bool createIfDoesNotExist = false)
+    {
+        AudioChannel channel = null;
+        if(channels.TryGetValue(channelNumber, out channel))
+        {
+            return channel;
+        }
+        else if (createIfDoesNotExist)
+        {
+            return new AudioChannel(channelNumber);
+        }
+
+        return null;
+    }
 
 }
