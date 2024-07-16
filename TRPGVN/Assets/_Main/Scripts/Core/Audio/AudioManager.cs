@@ -104,7 +104,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public AudioTrack PlayTrack(string filePath, int channel = 0, bool loop = true, float startingVolume = 0f, float volumeCap = 1f, bool ambience = false)
+    public AudioTrack PlayTrack(string filePath, int channel = 0, bool loop = true, float startingVolume = 0f, float volumeCap = 1f, float pitch = 1f, bool ambience = false)
     {
         AudioClip clip = Resources.Load<AudioClip>(filePath);
 
@@ -114,19 +114,29 @@ public class AudioManager : MonoBehaviour
             return null;
         }
 
-        return PlayTrack(clip, channel, loop, startingVolume, volumeCap, filePath, ambience);
+        return PlayTrack(clip, channel, loop, startingVolume, volumeCap, pitch, filePath, ambience);
     }
-    public AudioTrack PlayTrack(AudioClip clip, int channel = 0, bool loop = true, float startingVolume = 0f, float volumeCap = 1f, string filePath = "", bool ambience = false)
+    public AudioTrack PlayTrack(AudioClip clip, int channel = 0, bool loop = true, float startingVolume = 0f, float volumeCap = 1f, float pitch = 1f, string filePath = "", bool ambience = false)
     {
         AudioChannel audioChannel = TryGetChannel(channel, createIfDoesNotExist: true);
         AudioTrack track;
 
         if (ambience)
-            track = audioChannel.PlayTrack(clip, loop, startingVolume, volumeCap, filePath, ambienceMixer);
+            track = audioChannel.PlayTrack(clip, loop, startingVolume, volumeCap, pitch, filePath, ambienceMixer);
         else
-            track = audioChannel.PlayTrack(clip, loop, startingVolume, volumeCap, filePath, musicMixer);
+            track = audioChannel.PlayTrack(clip, loop, startingVolume, volumeCap, pitch, filePath, musicMixer);
 
         return track;
+    }
+
+    public void StopTrack(int channel)
+    {
+        AudioChannel c = TryGetChannel(channel, createIfDoesNotExist: false);
+
+        if (c == null)
+            return;
+
+        c.StopTrack();
     }
 
     public AudioChannel TryGetChannel(int channelNumber, bool createIfDoesNotExist = false)
@@ -138,7 +148,9 @@ public class AudioManager : MonoBehaviour
         }
         else if (createIfDoesNotExist)
         {
-            return new AudioChannel(channelNumber);
+            channel = new AudioChannel(channelNumber);
+            channels.Add(channelNumber, channel);
+            return channel;
         }
 
         return null;

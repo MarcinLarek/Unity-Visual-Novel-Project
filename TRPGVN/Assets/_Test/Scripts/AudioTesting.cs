@@ -45,13 +45,22 @@ namespace TESTING
 
             yield return DialogueSystem.instance.Say("Narrator", "Can we see your ship?");
 
-            GraphicPanelManager.instance.GetPanel("background").GetLayer(0, true).SetTexture("Graphic/BG_Images/5");
-            AudioManager.instance.PlayTrack("Audio/Music/Calm", startingVolume: 0.7f, ambience: true);
+            GraphicPanelManager.instance.GetPanel("background").GetLayer(0, true).SetTexture("Graphics/BG_Images/5");
+            AudioManager.instance.PlayTrack("Audio/Music/Calm");
+            AudioManager.instance.PlayTrack("Audio/Ambience/RainyMood", 1,ambience: true);
+
             AudioManager.instance.PlayVoice("Audio/Voices/wakeup");
 
             Affir.SetSprite(Affir.GetSprite("Affir_Happy"), 1);
             Affir.MoveToPosition(new Vector2(0.7f, 0), speed: 0.5f);
             yield return Affir.Say("Yes of course!");
+            AudioManager.instance.PlayTrack("Audio/Music/Happy");
+            yield return Affir.Say("AAAAAAAAAA");
+            AudioManager.instance.StopTrack(0);
+            yield return Affir.Say("BBBBBB");
+
+
+
 
             yield return null;
         }
