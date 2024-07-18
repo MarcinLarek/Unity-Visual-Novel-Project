@@ -17,7 +17,6 @@ namespace COMMANDS
         private static string[] PARAM_BLENDTEX = new string[] { "-b", "-blend" };
         private static string[] PARAM_USEVIDEOAUDIO = new string[] { "-aud", "-audio" };
 
-        private const string HOMEDIRECTORY_SYMBOl = "~/";
 
         new public static void Extend(CommandDatabase database)
         {
@@ -72,12 +71,12 @@ namespace COMMANDS
             parameters.TryGetValue(PARAM_USEVIDEOAUDIO, out useAudio, defaultValue: false);
 
             //Now run the logic
-            pathToGraphic = GetPathToGraphic(FilePaths.resources_backgroundImages, mediaName);
+            pathToGraphic = FilePaths.GetPathToResource(FilePaths.resources_backgroundImages, mediaName);
             graphic = Resources.Load<Texture>(pathToGraphic);
 
             if(graphic == null)
             {
-                pathToGraphic = GetPathToGraphic(FilePaths.resources_backgroundVideos, mediaName);
+                pathToGraphic = FilePaths.GetPathToResource(FilePaths.resources_backgroundVideos, mediaName);
                 graphic = Resources.Load<VideoClip>(pathToGraphic);
             }
 
@@ -161,14 +160,6 @@ namespace COMMANDS
 
             }
 
-        }
-
-        private static string GetPathToGraphic(string defaultPath, string graphicName)
-        {
-            if (graphicName.StartsWith(HOMEDIRECTORY_SYMBOl))
-                return graphicName.Substring(HOMEDIRECTORY_SYMBOl.Length);
-
-            return defaultPath + graphicName;
         }
 
     }

@@ -5,7 +5,14 @@ CreateCharacter(Affir -e true -i true), Show(Affir)
 CreateCharacter("Affir2 as Affir" -e true -i true), Affir2.SetColor(red), Show(Affir2), MoveCharacter(Affir2 0.2 0)
 CreateCharacter("Affir3 as Affir" -e true -i true), Affir3.SetColor(green), Show(Affir3), MoveCharacter(Affir3 0.7 0)
 
+playAmbience(RainyMood)
+playSong(Calm)
+playVoice(WakeUp)
+
 Affir "Affirs Showing"
+
+StopSong()
+StopAmbience()
 
 ClearLayerMedia(background -blend hypno)
 Affir "Space!"
