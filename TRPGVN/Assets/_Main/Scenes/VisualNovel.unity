@@ -816,6 +816,7 @@ GameObject:
   - component: {fileID: 300000835}
   - component: {fileID: 300000837}
   - component: {fileID: 300000836}
+  - component: {fileID: 300000838}
   m_Layer: 5
   m_Name: DialogueBarContainer
   m_TagString: Untagged
@@ -885,6 +886,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300000834}
   m_CullTransparentMesh: 1
+--- !u!225 &300000838
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300000834}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &492225382
 GameObject:
   m_ObjectHideFlags: 0

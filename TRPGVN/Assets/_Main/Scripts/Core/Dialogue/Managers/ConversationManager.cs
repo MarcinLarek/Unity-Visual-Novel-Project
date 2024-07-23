@@ -76,7 +76,10 @@ namespace DIALOGUE
             if (line.hasSpeaker)
                 HandleSpeakerLogic(line.speakerData);
 
-            //build dialogue
+            if(!dialogueSystem.dialogueContainer.isVisible)
+                dialogueSystem.dialogueContainer.Show();
+
+            //Build dialogue
             yield return BuildLineSegments(line.dialogueData);
             
 

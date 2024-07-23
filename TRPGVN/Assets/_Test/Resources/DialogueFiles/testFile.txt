@@ -10,6 +10,7 @@ playSong(Calm)
 playVoice(WakeUp)
 
 Affir "Affirs Showing"
+Hidedb()
 
 StopSong()
 StopAmbience()
@@ -76,7 +77,7 @@ Affir "STOP, CHANGE"
 [wait]Affir.Move(0 1)
 Affir "Affir move to Left"
 
-[wait]Affir.Move(0 1)
+[wait]Affir.Move(1 1)
 Affir "Affir move to Right"
 
 [wait]Affir.Move(0 1)
