@@ -17,6 +17,15 @@ namespace TESTING
 
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+                DialogueSystem.instance.dialogueContainer.Hide();
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+                DialogueSystem.instance.dialogueContainer.Show();
+        }
+
         void StartConversation()
         {
             List<string> lines = FileManager.ReadTextAsset(fileToRead);

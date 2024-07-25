@@ -34,7 +34,6 @@ namespace DIALOGUE
 
             return process;
         }
-
         public void StopConversation()
         {
             if (!isRunning)
@@ -43,7 +42,6 @@ namespace DIALOGUE
             dialogueSystem.StopCoroutine(process);
             process = null;
         }
-
         IEnumerator RunningConversation(List<string> conversation)
         {
             for (int i = 0; i < conversation.Count; i++)
@@ -62,28 +60,30 @@ namespace DIALOGUE
                 if (line.hasCommands)
                     yield return Line_RunCommands(line);
 
-                //Wait for user input
+                //Wait for user input if dialogue ws in this line
                 if (line.hasDialogue)
                 {
+                    //Wait for user input
                     yield return WiatForUserInput();
                     CommandManager.instance.StopAllProcesses();
                 }
 
             }
         }
-
         IEnumerator Line_RunDialogue(DIALOGUE_LINE line)
         {
             //Show or hide the speaker name if there is one present.
             if (line.hasSpeaker)
                 HandleSpeakerLogic(line.speakerData);
 
-            //build dialogue
+            if(!dialogueSystem.dialogueContainer.isVisible)
+                dialogueSystem.dialogueContainer.Show();
+
+            //Build dialogue
             yield return BuildLineSegments(line.dialogueData);
             
 
         }
-
         private void HandleSpeakerLogic(DL_SPEAKER_DATA speakerData)
         {
             bool characterMustBeCreated = (speakerData.makeCharacterEnter || speakerData.isCastingPosition || speakerData.isCastingExpressions);
@@ -107,7 +107,6 @@ namespace DIALOGUE
                     character.OnReceiveCastingExpression(ce.layer, ce.expression);
             }
         }
-
         IEnumerator Line_RunCommands(DIALOGUE_LINE line)
         {
             List<DL_COMMAND_DATA.Command> commands = line.commandData.commands;
@@ -132,7 +131,6 @@ namespace DIALOGUE
             }
             yield return null;
         }
-
         IEnumerator BuildLineSegments(DL_DIALOGUE_DATA line)
         {
             for( int i = 0; i <line.segments.Count; i++)
@@ -144,7 +142,6 @@ namespace DIALOGUE
                 yield return BuildDialogue(segment.dialogue, segment.appendText);
             }
         }
-
         IEnumerator WiatForDialogueSegmentSignalToBeTriggered(DL_DIALOGUE_DATA.DIALOGUE_SEGMENT segment)
         {
             switch (segment.startSignal)
@@ -161,7 +158,6 @@ namespace DIALOGUE
                     break;
             }
         }
-
         IEnumerator BuildDialogue(string dialogue, bool append = false)
         {
             //Build the dialogue
@@ -185,11 +181,14 @@ namespace DIALOGUE
                 yield return null;
             }
         }
-
         IEnumerator WiatForUserInput()
         {
+            dialogueSystem.prompt.Show();
+
             while(!userPrompt)
                 yield return null;
+
+            dialogueSystem.prompt.Hide();
 
             userPrompt = false;
         }
