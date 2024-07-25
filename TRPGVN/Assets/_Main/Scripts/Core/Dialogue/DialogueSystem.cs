@@ -14,6 +14,7 @@ namespace DIALOGUE
         public DialogueContainer dialogueContainer = new DialogueContainer();
         private ConversationManager conversationManager;
         private TextArchitect architect;
+        [SerializeField] private CanvasGroup mainCanvas;
 
         public static DialogueSystem instance { get; private set;}
 
@@ -22,6 +23,7 @@ namespace DIALOGUE
         public bool isRunningConversation => conversationManager.isRunning;
 
         public DialogueContinuePrompt prompt;
+        private CanvasGroupController cgController;
 
         private void Awake()
         {
@@ -44,6 +46,9 @@ namespace DIALOGUE
 
             architect = new TextArchitect(dialogueContainer.dialogueText);
             conversationManager = new ConversationManager(architect);
+
+            cgController = new CanvasGroupController(this, mainCanvas);
+            dialogueContainer.Initialize();
         }
 
         public void OnUserPrompt_Next()
@@ -58,12 +63,10 @@ namespace DIALOGUE
 
             ApplySpeakerDataToDialogueContainer(config);
         }
-
         public void ApplySpeakerDataToDialogueContainer(CharacterConfigData config)
         {
             dialogueContainer.SetConfig(config);
         }
-
         public void ShowSpeakerName(string speakerName = "")
         {
             if (speakerName.ToLower() != "narrator")
@@ -72,17 +75,19 @@ namespace DIALOGUE
                 HideSpeakerName();
         }
         public void HideSpeakerName(string speakerName = "") => dialogueContainer.nameContainer.Hide();
-
-
         public Coroutine Say(string speaker, string dialogue)
         {
             List<string> conversation = new List<string>() { $"{speaker} \"{dialogue}\"" };
             return Say(conversation);
-        }
-        
+        }      
         public Coroutine Say(List<string> conversation)
         {
             return conversationManager.StartConversation(conversation);
         }
+
+        public bool isVisible => cgController.isVisible;
+        public Coroutine Show(float speed = 1f, bool immediate = false) => cgController.Show(speed, immediate);
+        public Coroutine Hide(float speed = 1f, bool immediate = false) => cgController.Hide(speed, immediate);
+        
     }
 }

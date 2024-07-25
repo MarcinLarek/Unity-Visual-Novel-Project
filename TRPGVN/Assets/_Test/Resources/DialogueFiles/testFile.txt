@@ -10,12 +10,16 @@ playSong(Calm)
 playVoice(WakeUp)
 
 Affir "Affirs Showing"
-Hidedb()
+
+[wait]Hidedb(-spd 0.1)
 
 StopSong()
 StopAmbience()
 
 ClearLayerMedia(background -blend hypno)
+
+wait(1)
+ShowDB(-i true)
 Affir "Space!"
 
 SetLayerMedia(cinematic -m "~/Graphics/Gallery/flower")
@@ -30,6 +34,16 @@ Affir.SetSprite(-s Affir_Happy -l 1 -spd 0.5)
 wait(1)
 Affir.SetSprite(-s Affir_Angry -l 1)
 wait(1)
+
+SetLayerMedia(background Nebula), SetLayerMedia(background 1 SpaceShipInterior)
+
+Affir "Hide ui test!"
+
+[wait]HideUI(-spd 0.5)
+
+wait(1)
+
+[wait]ShowUI(-i true)
 
 
 Affir "First Stop"

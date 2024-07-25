@@ -24,7 +24,6 @@ namespace TESTING
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
                 DialogueSystem.instance.dialogueContainer.Show();
-
         }
 
         void StartConversation()
