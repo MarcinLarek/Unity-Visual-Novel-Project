@@ -12,6 +12,9 @@ Line breakers
 {wc n}	= wait clear number(time)
 {wa n}	= waint append number(time)
 
+You can show diffrent character name by using as:
+Affir as ??? will use Affir customization with ??? name
+
 speaker as characterName at 1:1 [0:Angle, 1:Happy] "segment{c}seg,emts" commands(args)
 On single layer characters you can skip the layer indication on expression and just type [Happy] for example
 
