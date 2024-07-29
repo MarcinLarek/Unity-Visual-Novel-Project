@@ -12,7 +12,7 @@ namespace COMMANDS
     {
         private static string[] PARAM_SFX = new string[] {"-s", "-sfx" };
         private static string[] PARAM_VOLUME = new string[] { "-v", "-vol", "-volume" };
-        private static string[] PARAM_PITCH = new string[] { "-p", "pitch" };
+        private static string[] PARAM_PITCH = new string[] { "-p", "-pitch" };
         private static string[] PARAM_LOOP = new string[] { "-l", "-loop" };
 
         private static string[] PARAM_CHANNEL = new string[] { "-c", "-channel" };

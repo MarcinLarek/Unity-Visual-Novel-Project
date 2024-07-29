@@ -62,7 +62,7 @@ namespace COMMANDS
 
             //Try to get the speed of the transition if it is not an immediate effect
             if (!immediate)
-                parameters.TryGetValue(PARAM_SPEED, out transitionSpeed, defaultValue: 1);
+                parameters.TryGetValue(PARAM_SPEED, out transitionSpeed, defaultValue: 1f);
 
             //Try to get the blending texture for the media if we are using one
             parameters.TryGetValue(PARAM_BLENDTEX, out blendTexName);
@@ -136,7 +136,7 @@ namespace COMMANDS
 
             //Try to get the speed of the transition if it is not an immediate effect
             if (!immediate)
-                parameters.TryGetValue(PARAM_SPEED, out transitionSpeed, defaultValue: 1);
+                parameters.TryGetValue(PARAM_SPEED, out transitionSpeed, defaultValue: 1f);
 
             //Try to get the blending texture for the media if we are using one
             parameters.TryGetValue(PARAM_BLENDTEX, out blendTexName);
