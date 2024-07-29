@@ -138,7 +138,7 @@ set track to specific channel. Only one track can play on specific channel. Musi
 		currently are not connected to any game Mixer. Path for Blend textures is: Main/Resources/Graphics/TransitionEffects
 		If blendtex in unspecified transistion will be simple fading in/out. Only one background can be set on specific 
 		panel and layer.
-* __ClearLayerMedia(panelName layer: -1 immediate: false speed: 1f blendtex: "") - __ Clear background from specified panel
+* __ClearLayerMedia(panelName layer: -1 immediate: false speed: 1f blendtex: "") -__ Clear background from specified panel
 		if layer is not set, or is set to -1 function will clear bakcgrounds from all layers in panel. ath for Blend textures
 		is: Main/Resources/Graphics/TransitionEffects If blendtex in unspecified transistion will be simple fading in/out.
 
