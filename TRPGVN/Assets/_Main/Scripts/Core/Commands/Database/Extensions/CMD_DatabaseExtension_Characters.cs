@@ -43,7 +43,7 @@ namespace COMMANDS
 
             //Add character specific databases
             CommandDatabase spriteCommands = CommandManager.instance.CreateSubDatabase(CommandManager.DATABASE_CHARACTERS_SPRITE);
-            baseCommands.AddCommand("setsprite", new Func<string[], IEnumerator>(SetSprite));
+            spriteCommands.AddCommand("setsprite", new Func<string[], IEnumerator>(SetSprite));
         }
 
         private static void CreateCharacter(string[] data)
@@ -93,7 +93,7 @@ namespace COMMANDS
             parameters.TryGetValue(PARAM_YPOS, out y);
 
             //try to get the speed
-            parameters.TryGetValue(PARAM_SPEED, out speed, defaultValue: 1);
+            parameters.TryGetValue(PARAM_SPEED, out speed, defaultValue: 1f);
 
             //try to get the smooth
             parameters.TryGetValue(PARAM_SMOOTH, out smooth, defaultValue: false);

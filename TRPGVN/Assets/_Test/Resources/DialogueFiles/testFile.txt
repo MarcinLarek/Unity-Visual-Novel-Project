@@ -11,6 +11,8 @@ playVoice(WakeUp)
 
 Affir "Affirs Showing"
 
+<mainChar> "Testing tags. Name: <mainChar> ; Time: <time> ; Lvl: <playerLevel> ; ATE: <tempvall>"
+
 [wait]Hidedb(-spd 0.1)
 
 StopSong()
