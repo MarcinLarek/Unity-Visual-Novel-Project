@@ -36,12 +36,10 @@ namespace CHARACTERS
             renderer = defaultRenderer;
             this.layer = layer;
         }
-
         public void SetSprite(Sprite sprite)
         {
             renderer.sprite = sprite;
         }
-
         public Coroutine TransitionSprite(Sprite sprite, float speed = 1)
         {
             if (sprite == renderer.sprite)
@@ -54,7 +52,6 @@ namespace CHARACTERS
 
             return co_transitioningLayer;
         }
-
         private IEnumerator TransitioningSprite(Sprite sprite, float speedMultiplier)
         {
             transitionSpeedMultiplier = speedMultiplier;
@@ -65,7 +62,6 @@ namespace CHARACTERS
 
             co_transitioningLayer = null;
         }
-
         private Image CreateRenderer(Transform parent)
         {
             Image newRenderer = Object.Instantiate(renderer, parent);
@@ -78,17 +74,15 @@ namespace CHARACTERS
 
             return newRenderer;
         }
-
         private Coroutine TryStartLevelingAlpas()
         {
-            if(isLevelingAlpha)
-                return co_levelingAlpha;
+            if (isLevelingAlpha)
+                characterManager.StopCoroutine(co_levelingAlpha);
 
             co_levelingAlpha = characterManager.StartCoroutine(RunAlphaLeveling());
 
             return co_levelingAlpha;
         }
-
         private IEnumerator RunAlphaLeveling()
         {
             while(rendererCG.alpha < 1 || oldRenderers.Any(oldCG => oldCG.alpha > 0))
@@ -113,7 +107,6 @@ namespace CHARACTERS
 
             co_levelingAlpha = null;
         }
-
         public void SetColor(Color color)
         {
             renderer.color = color;
@@ -123,7 +116,6 @@ namespace CHARACTERS
                 oldCG.GetComponent<Image>().color = color;
             }
         }
-
         public Coroutine TransitionColor(Color color, float speed)
         {
             if (isChangingColor)
@@ -142,7 +134,6 @@ namespace CHARACTERS
 
             co_changingColor = null;
         }
-
         private IEnumerator ChangingColor(Color color, float speedMultiplier)
         {
             Color oldColor = renderer.color;
@@ -160,9 +151,13 @@ namespace CHARACTERS
 
                 renderer.color = Color.Lerp(oldColor, color, colorPercent);
 
-                foreach(Image oldimage in oldImages)
+                for(int i = oldImages.Count -1; i >= 0; i--)
                 {
-                    oldimage.color = renderer.color;
+                    Image image = oldImages[i];
+                    if (image != null)
+                        image.color = renderer.color;
+                    else
+                        oldImages.RemoveAt(i);
                 }
 
                 yield return null;
@@ -170,7 +165,6 @@ namespace CHARACTERS
 
             co_changingColor = null;
         }
-
         public Coroutine FaceLeft(float speed =1, bool immediate = false)
         {
             if (iSFlipping)
