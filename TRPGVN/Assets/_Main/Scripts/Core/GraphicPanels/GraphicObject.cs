@@ -45,7 +45,6 @@ public class GraphicObject
 
         renderer.material.SetTexture(Material_FIELD_MAINTEX, tex);
     }
-
     public GraphicObject(GraphicLayer layer, string graphicPath, VideoClip clip, bool useAudio, bool immediate)
     {
         this.graphicPath = graphicPath;
@@ -89,7 +88,6 @@ public class GraphicObject
         video.enabled = false;
         video.enabled = true;
     }
-
     private void InitGraphic(bool immediate)
     {
         renderer.transform.localPosition = Vector3.zero;
@@ -107,7 +105,6 @@ public class GraphicObject
         renderer.material.SetFloat(Material_FIELD_BLEND, startingOpacity);
         renderer.material.SetFloat(Material_FIELD_ALPHA, startingOpacity);
     }
-
     private Material GetTransitionMaterial()
     {
         Material mat = Resources.Load<Material>(MATERIAL_PATH);
@@ -117,9 +114,7 @@ public class GraphicObject
 
         return null;
     }
-
     GraphicPanelManager panelManager => GraphicPanelManager.instance;
-
     public Coroutine FadeIn(float speed = 1f, Texture blend = null)
     {
         if (co_fadingOut != null)
@@ -144,7 +139,6 @@ public class GraphicObject
 
         return co_fadingOut;
     }
-
     private IEnumerator Fading(float target, float speed, Texture blend)
     {
         bool isBlending = blend != null;
@@ -183,19 +177,25 @@ public class GraphicObject
         else
         {
             DestroyBackgroundGraphicsOnLayer();
-            renderer.texture = renderer.material.GetTexture(Material_FIELD_MAINTEX);
-            renderer.material = null;
+            //It gives null error when skipping thru scene
+            //Currently its just stupid fix. Need to find whats the problem is later
+            if(renderer!=null)
+            {
+                renderer.texture = renderer.material.GetTexture(Material_FIELD_MAINTEX);
+                renderer.material = null;
+            }
         }
     }
-
     public void Destroy()
     {
         if (layer.currentGraphic != null && layer.currentGraphic.renderer == renderer)
             layer.currentGraphic = null;
 
+        if(layer.oldGraphics.Contains(this))
+            layer.oldGraphics.Remove(this);
+
         Object.Destroy(renderer.gameObject);
     }
-
     private void DestroyBackgroundGraphicsOnLayer()
     {
         layer.DestroyOldGraphics();
