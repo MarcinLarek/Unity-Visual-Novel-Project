@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DIALOGUE.LogicalLines;
 
 namespace DIALOGUE
 {
@@ -17,6 +18,7 @@ namespace DIALOGUE
         private bool userPrompt = false;
 
         private TagManager tagManager;
+        private LogicalLineManager logicalLineManager;
 
         public ConversationManager(TextArchitect architect)
         {
@@ -25,6 +27,7 @@ namespace DIALOGUE
 
             //For future. If you want to use it outside ConversationManager, convert it to Singleton
             tagManager = new TagManager();
+            logicalLineManager = new LogicalLineManager();
         }
 
         private void OnUserPrompt_Next()
@@ -56,23 +59,29 @@ namespace DIALOGUE
                     continue;
 
                 DIALOGUE_LINE line = DialogueParser.Parse(conversation[i]);
-                
-                //Show dialogue
-                if (line.hasDialogue)
-                    yield return Line_RunDialogue(line);
 
-                //Run any commands
-                if (line.hasCommands)
-                    yield return Line_RunCommands(line);
-
-                //Wait for user input if dialogue ws in this line
-                if (line.hasDialogue)
+                if(logicalLineManager.TryGetLogic(line, out Coroutine logic))
                 {
-                    //Wait for user input
-                    yield return WiatForUserInput();
-                    CommandManager.instance.StopAllProcesses();
+                    yield return logic;
                 }
+                else
+                {
+                    //Show dialogue
+                    if (line.hasDialogue)
+                        yield return Line_RunDialogue(line);
 
+                    //Run any commands
+                    if (line.hasCommands)
+                        yield return Line_RunCommands(line);
+
+                    //Wait for user input if dialogue ws in this line
+                    if (line.hasDialogue)
+                    {
+                        //Wait for user input
+                        yield return WiatForUserInput();
+                        CommandManager.instance.StopAllProcesses();
+                    }
+                }
             }
         }
         IEnumerator Line_RunDialogue(DIALOGUE_LINE line)

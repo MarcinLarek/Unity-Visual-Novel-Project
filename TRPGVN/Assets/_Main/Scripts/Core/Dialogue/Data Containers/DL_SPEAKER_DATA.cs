@@ -8,9 +8,9 @@ namespace DIALOGUE
     public class DL_SPEAKER_DATA
     {
         public string name, castName;
-        /// <summary>
-        /// This is the name that wil display in the dialogue box to show who is speaking.
-        /// </summary>
+        public string rawData { get; private set; } = string.Empty;
+
+        // This is the name that wil display in the dialogue box to show who is speaking.
         public string displayName => isCastingName ? castName : name;
         public Vector2 castPosition;
 
@@ -44,6 +44,7 @@ namespace DIALOGUE
 
         public DL_SPEAKER_DATA(string rawSpeaker)
         {
+            this.rawData = rawSpeaker;
             rawSpeaker = ProcessKeyWords(rawSpeaker);
             string pattern = @$"{NAMECAST_ID}|{POSITIONCAST_ID}|{EXPRESSIONCAST_ID.Insert(EXPRESSIONCAST_ID.Length - 1, @"\")}";
             MatchCollection matches = Regex.Matches(rawSpeaker, pattern);
