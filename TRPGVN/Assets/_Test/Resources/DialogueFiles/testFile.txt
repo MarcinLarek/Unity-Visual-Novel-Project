@@ -13,7 +13,7 @@ narrator "What is your name?"
 
 input "Type your name in here"
 
-narrator "Your name is <mainChar>?"
+narrator "Your name is <input>?"
 
 Affir "Affirs Showing"
 

@@ -22,6 +22,8 @@ Affir as ??? will use Affir customization with ??? name
 
 ## Commands
 [wait] - Before function to wait for completion before executing another line/function
+input "header" - Show up an input panel. Header is a text that will be show above input field. You can grab the result by <input> tag
+
 You can pass the values in given order, or specify parameters if you want diffrent order or you don' want to use every parameter.
 All commands shoud be case insensitive. Parameters are not. If you want to pass argument consisted of two words you need to join them with ""
 While passing arguments you dont use any separators in brackets. For example:
@@ -58,6 +60,7 @@ usevideoaudio:	[-aud, -audio]
 * __HideDB(speed: 1f immediate: true) -__ Hide dialogue box (DialogueBox GameObject)
 * __ShowUI(speed: 1f immediate: true) -__ Show VN User Interface (Canvas Main GameObject)
 * __HideUI(speed: 1f immediate: true) -__ Hide VN User Interface (Canvas Main GameObject)
+
 
 ### Characters
 #### General characters command
