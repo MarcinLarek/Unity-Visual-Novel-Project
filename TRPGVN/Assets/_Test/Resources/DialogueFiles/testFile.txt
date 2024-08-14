@@ -9,6 +9,12 @@ playAmbience(RainyMood)
 playSong(Calm)
 playVoice(WakeUp)
 
+narrator "What is your name?"
+
+input "Type your name in here"
+
+narrator "Your name is <input>?"
+
 Affir "Affirs Showing"
 
 <mainChar> "Testing tags. Name: <mainChar> ; Time: <time> ; Lvl: <playerLevel> ; ATE: <tempvall>"

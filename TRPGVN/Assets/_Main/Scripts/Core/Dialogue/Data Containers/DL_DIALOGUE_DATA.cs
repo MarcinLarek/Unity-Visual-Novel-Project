@@ -7,10 +7,13 @@ namespace DIALOGUE
     public class DL_DIALOGUE_DATA
     {
         public List<DIALOGUE_SEGMENT> segments;
+        public string rawData { get; private set; } = string.Empty;
+
         private const string segmentIdentifierPattern = @"\{[ca]\}|\{w[ca]\s\d*\.?\d*\}";
 
         public DL_DIALOGUE_DATA(string rawDialogue)
         {
+            this.rawData = rawDialogue;
             segments = RipSegments(rawDialogue);
         }
 

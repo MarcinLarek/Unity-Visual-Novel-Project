@@ -11,6 +11,8 @@ namespace DIALOGUE
         private const char COMMANDSPLITTER_ID = ',';
         private const char ARGUMENTCONTAINER_ID = '(';
         private const string WAITCOMMAND_ID = "[wait]";
+        public string rawData { get; private set; } = string.Empty;
+
         public struct Command
         {
             public string name;
