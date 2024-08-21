@@ -20,6 +20,9 @@ namespace DIALOGUE
         private TagManager tagManager;
         private LogicalLineManager logicalLineManager;
 
+        public Conversation conversation => (conversationQueue.IsEmpty() ? null : conversationQueue.top);
+        private ConversatiuonQueue conversationQueue;
+
         public ConversationManager(TextArchitect architect)
         {
             this.architect = architect;
@@ -28,17 +31,22 @@ namespace DIALOGUE
             //For future. If you want to use it outside ConversationManager, convert it to Singleton
             tagManager = new TagManager();
             logicalLineManager = new LogicalLineManager();
+            conversationQueue = new ConversatiuonQueue();
         }
+        public void Enqueue(Conversation conversation) => conversationQueue.Enqueue(conversation);
+        public void EnqueuePriority(Conversation conversation) => conversationQueue.EnqueuePriority(conversation);
 
         private void OnUserPrompt_Next()
         {
             userPrompt = true;
         }
-        public Coroutine StartConversation(List<string> conversation)
+        public Coroutine StartConversation(Conversation conversation)
         {
             StopConversation();
 
-            process = dialogueSystem.StartCoroutine(RunningConversation(conversation));
+            Enqueue(conversation);
+
+            process = dialogueSystem.StartCoroutine(RunningConversation());
 
             return process;
         }
@@ -50,15 +58,22 @@ namespace DIALOGUE
             dialogueSystem.StopCoroutine(process);
             process = null;
         }
-        IEnumerator RunningConversation(List<string> conversation)
+        IEnumerator RunningConversation()
         {
-            for (int i = 0; i < conversation.Count; i++)
+            while(!conversationQueue.IsEmpty())
             {
-                //Dont show any blank lines or try to run any logic on them
-                if (string.IsNullOrWhiteSpace(conversation[i]))
-                    continue;
+                Conversation currentConversation = conversation;
+                string rawLine = currentConversation.CurrentLiune();
 
-                DIALOGUE_LINE line = DialogueParser.Parse(conversation[i]);
+                //Dont show any blank lines or try to run any logic on them
+                if (string.IsNullOrWhiteSpace(rawLine))
+                {
+                    TryAdvanceConversation(currentConversation);
+                    continue;
+                }
+                    
+
+                DIALOGUE_LINE line = DialogueParser.Parse(rawLine);
 
                 if(logicalLineManager.TryGetLogic(line, out Coroutine logic))
                 {
@@ -82,8 +97,21 @@ namespace DIALOGUE
                         CommandManager.instance.StopAllProcesses();
                     }
                 }
+
+                TryAdvanceConversation(currentConversation);
             }
+
+            process = null;
         }
+
+        private void TryAdvanceConversation(Conversation conversation)
+        {
+            conversation.IncrementProgrss();
+
+            if (conversation.hasReachedEnd())
+                conversationQueue.Dequeue();
+        }
+
         IEnumerator Line_RunDialogue(DIALOGUE_LINE line)
         {
             //Show or hide the speaker name if there is one present.
