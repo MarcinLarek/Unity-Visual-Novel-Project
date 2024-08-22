@@ -21,6 +21,7 @@ namespace DIALOGUE
         private LogicalLineManager logicalLineManager;
 
         public Conversation conversation => (conversationQueue.IsEmpty() ? null : conversationQueue.top);
+        public int conversationProgess => (conversationQueue.IsEmpty() ? -1 : conversationQueue.top.GetProgress());
         private ConversatiuonQueue conversationQueue;
 
         public ConversationManager(TextArchitect architect)

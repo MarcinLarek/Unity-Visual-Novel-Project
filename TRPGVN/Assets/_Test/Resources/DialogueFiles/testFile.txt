@@ -9,6 +9,31 @@ playAmbience(RainyMood)
 playSong(Calm)
 playVoice(WakeUp)
 
+Affir "What's your  story?"
+
+choice "Select Origin"
+{
+	-Mercenary
+		Affir "No shit, where did you serve?"
+		choice "Where did you serve"
+		{
+			-Ifra
+				Affir "Empire spec ops wannabe?"
+				"How is old lady doing by the way?"
+				Aiden "Alive, last time I seen her"
+			-Kundle
+				Affir "Damn. I heard they are done for?"
+				Aiden "Yeah, some vampire killed almost everyone in Maribor."
+		}
+		Aiden "Anyway I'm not wit them anymore"
+	-Survivor
+		Affir "So, you seen some shit?"
+		Aiden "Don't we all?"
+	-Bastard
+		Affir "At least  you get thing done"
+		Aiden "yeah"
+}
+
 narrator "What is your name?"
 
 input "Type your name in here"
