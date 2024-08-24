@@ -64,6 +64,13 @@ namespace DIALOGUE
             while(!conversationQueue.IsEmpty())
             {
                 Conversation currentConversation = conversation;
+
+                if (currentConversation.hasReachedEnd())
+                {
+                    conversationQueue.Dequeue();
+                    continue;
+                }
+
                 string rawLine = currentConversation.CurrentLiune();
 
                 //Dont show any blank lines or try to run any logic on them
@@ -108,6 +115,9 @@ namespace DIALOGUE
         private void TryAdvanceConversation(Conversation conversation)
         {
             conversation.IncrementProgrss();
+
+            if (conversation != conversationQueue.top)
+                return;
 
             if (conversation.hasReachedEnd())
                 conversationQueue.Dequeue();

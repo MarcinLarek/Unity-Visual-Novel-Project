@@ -11,48 +11,61 @@ Name "dialogue" command(logic)
 
 Name only change if you specify diffrent name, so if you have multiple lines for one character, you can write his name only once
 
-Line breakers
-{c}	= clear
-{a}	= append
-{wc n}	= wait clear number(time)
-{wa n}	= waint append number(time)
+Line breakers  
+* {c}	= clear  
+* {a}	= append  
+* {wc n}	= wait clear number(time)  
+* {wa n}	= wait append number(time)  
 
-You can show diffrent character name by using as:
-Affir as ??? will use Affir customization with ??? name
+You can show diffrent character name by using as:  
+Affir as ??? will use Affir customization with ??? name  
 
 ## Commands
-[wait] - Before function to wait for completion before executing another line/function
-input "header" - Show up an input panel. Header is a text that will be show above input field. You can grab the result by <input> tag
+* [wait] - Before function to wait for completion before executing another line/function.
+* input "header" - Show up an input panel. Header is a text that will be show above input field. You can grab the result by <input> tag.
 
-You can pass the values in given order, or specify parameters if you want diffrent order or you don' want to use every parameter.
-All commands shoud be case insensitive. Parameters are not. If you want to pass argument consisted of two words you need to join them with ""
-While passing arguments you dont use any separators in brackets. For example:
+You can pass the values in given order, or specify parameters if you want diffrent order or you don' want to use every parameter.  
+All commands shoud be case insensitive. Parameters are not. If you want to pass argument consisted of two words you need to join them with ""  
+While passing arguments you dont use any separators in brackets. For example:  
 Showdb( -spd 1f -i true)
 
+### Chocie panel sturcture:
 
-Parameters:
-speed:			[-spd, -speed]
-immediate:		[-i, -immediate]
-enable:			[-e, -enabled]
-xpos:			[-x]
-ypos:			[-y]
-smooth:			[-sm, -smooth]
-color:			[-c, -color]
-only:			[-o, -only]
-sprite:			[-s, -sprite]
-layer:			[-l, -layer]
-sfx:			[-s, -sfx]
-song:			[-s, -song]
-ambience:		[-a -ambience]
-volume:			[-v, -vol, -volume]
-pitch:			[-p, -pitch]
-loop:			[-l, -loop]
-channel:		[-c, -channel]
-startvolume:	[-sv, -startvolume]
-panel:			[-p, -panel]
-media:			[-m, -media]
-blendtex:		[-b, -blend]
-usevideoaudio:	[-aud, -audio]
+choice "Choice Title"  
+{  
+&emsp; -Option1  
+&emsp; &emsp; Character "Dialogue"  
+&emsp; -Option2  
+&emsp; &emsp; character "Dialogue"  
+}  
+
+Character "Dialogue outside of a choice"
+
+You can put another choice inside an choice option.
+
+### Parameters
+speed:			[-spd, -speed]  
+immediate:		[-i, -immediate]  
+enable:			[-e, -enabled]  
+xpos:			[-x]  
+ypos:			[-y]  
+smooth:			[-sm, -smooth]  
+color:			[-c, -color]  
+only:			[-o, -only]  
+sprite:			[-s, -sprite]  
+layer:			[-l, -layer]  
+sfx:			[-s, -sfx]  
+song:			[-s, -song]  
+ambience:		[-a -ambience]  
+volume:			[-v, -vol, -volume]  
+pitch:			[-p, -pitch]  
+loop:			[-l, -loop]  
+channel:		[-c, -channel]  
+startvolume:	[-sv, -startvolume]  
+panel:			[-p, -panel]  
+media:			[-m, -media]  
+blendtex:		[-b, -blend]  
+usevideoaudio:	[-aud, -audio]  
 
 ### General
 * __Wait(x) -__ Wait for x seconds specified in floats
