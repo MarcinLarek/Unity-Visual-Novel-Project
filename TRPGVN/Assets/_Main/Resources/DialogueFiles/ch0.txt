@@ -1,0 +1,20 @@
+SetLayerMedia(background villagenight)
+
+CreateCharacter(Affir -e true -i true), Show(Affir)
+
+Affir "Where are we going?"
+
+choice "Select Destination"
+{
+	-Market
+		Affir "Easy game"
+		Load(ch1a -e true)
+	-Mansion
+		Affir "Can be tricky"
+		Load(ch1b)
+}
+
+Affir "Ok Lets go"
+Affir.move(-x 3 -spd 2) Affir.Hide()
+wait(0.75)
+ClearLayerMedia(background), wait(1)
