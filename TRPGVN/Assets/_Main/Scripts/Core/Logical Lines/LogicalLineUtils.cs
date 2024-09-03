@@ -14,6 +14,7 @@ namespace DIALOGUE.LogicalLines
         {
             public struct EncapulatedData
             {
+                public bool isNull => lines == null;
                 public List<string> lines;
                 public int startingIndex;
                 public int endingIndex;
@@ -192,7 +193,106 @@ namespace DIALOGUE.LogicalLines
                         return negate ? !boolValue : boolValue;
                     }
                     else
+                    {
+                        value = TagManager.Inject(value, injectTags: true, injectVariables: true);
                         return value;
+                    }
+                       
+                }
+            }
+        }
+
+        public static class Conditions
+        {
+            public static readonly string REGEX_CONDITIONAL_OPERATORS = @"(==|!=|<=|>=|<|>|&&|\|\|)";
+            public static bool EvaluateCondition(string condition)
+            {
+                condition = TagManager.Inject(condition, injectTags: true, injectVariables: true);
+
+                string[] parts = Regex.Split(condition, REGEX_CONDITIONAL_OPERATORS)
+                    .Select(p => p.Trim()).ToArray();
+
+                for(int i = 0; i < parts.Length; i++)
+                {
+                    if (parts[i].StartsWith("\"") && parts[i].EndsWith("\""))
+                        parts[i] = parts[i].Substring(1, parts[i].Length - 2);
+
+                }
+
+                if(parts.Length == 1)
+                {
+                    if (bool.TryParse(parts[0], out bool result))
+                        return result;
+                    else
+                    {
+                        Debug.LogError($"Could not parse condition: {condition}");
+                        return false;
+                    }
+                }
+                else if (parts.Length == 3)
+                {
+                    return EvaluateExpression(parts[0], parts[1], parts[2]);
+                }
+                else
+                {
+                    Debug.Log($"Unsupported condition format: {condition}");
+                    return false;
+                }
+
+            }
+
+            private delegate bool OperatorFunc<T>(T left, T right);
+            private static Dictionary<string, OperatorFunc<bool>> boolOperators = new Dictionary<string, OperatorFunc<bool>>()
+            {
+                {"&&", (left,right) => left && right},
+                {"||", (left,right) => left || right},
+                {"==", (left,right) => left == right},
+                {"!=", (left,right) => left != right}
+            };
+            private static Dictionary<string, OperatorFunc<float>> floatOperators = new Dictionary<string, OperatorFunc<float>>()
+            {
+                {"==", (left,right) => left == right},
+                {"!=", (left,right) => left != right},
+                {">", (left,right) => left > right},
+                {">=", (left,right) => left >= right},
+                {"<", (left,right) => left < right},
+                {"<=", (left,right) => left <= right}
+            };
+            private static Dictionary<string, OperatorFunc<int>> intOperators = new Dictionary<string, OperatorFunc<int>>()
+            {
+                {"==", (left,right) => left == right},
+                {"!=", (left,right) => left != right},
+                {">", (left,right) => left > right},
+                {">=", (left,right) => left >= right},
+                {"<", (left,right) => left < right},
+                {"<=", (left,right) => left <= right}
+            };
+
+            private static bool EvaluateExpression(string left, string op, string right)
+            {
+                if (bool.TryParse(left, out bool leftBool) && bool.TryParse(right, out bool rightBool))
+                {
+                    if(boolOperators.ContainsKey(op))
+                        return boolOperators[op](leftBool, rightBool);
+                }
+
+                if(float.TryParse(left, out float leftFloat) && float.TryParse(right, out float rightFloat))
+                {
+                    if(floatOperators.ContainsKey(op))
+                        return floatOperators[op](leftFloat, rightFloat);
+                }
+
+                if(int.TryParse(left, out int leftInt) && int.TryParse(right, out int rightInt))
+                {
+                    if(intOperators.ContainsKey(op))
+                        return intOperators[op](leftInt, rightInt);
+                }
+
+                switch(op)
+                {
+                    case "==": return left == right;
+                    case "!=": return left != right;
+                    default: throw new InvalidOperationException($"Unsupported Operation: {op}");
                 }
             }
         }
