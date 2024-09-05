@@ -51,6 +51,12 @@ namespace CHARACTERS
 
         public Sprite GetSprite(string spriteName)
         {
+            if(config.sprites.Count > 0)
+            {
+                if (config.sprites.TryGetValue(spriteName, out Sprite sprite))
+                    return sprite;
+            }
+
             if(config.characterType == CharacterType.SpriteSheet)
             {
                 string[] data = spriteName.Split(SPRITESHEET_TEX_SPRITE_DELIMITTER);
@@ -61,9 +67,6 @@ namespace CHARACTERS
                     string texturename = data[0];
                     spriteName = data[1];
                     spriteArray = Resources.LoadAll<Sprite>($"{artAssetsDirectory}/{texturename}");
-
-                    if (spriteArray.Length == 0)
-                        Debug.LogWarning($"Character '{name}' does not have an art asset called '{texturename}'");
                 }
                 else
                 {
