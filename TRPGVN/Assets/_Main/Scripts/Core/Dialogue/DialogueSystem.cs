@@ -82,7 +82,10 @@ namespace DIALOGUE
             if (speakerName.ToLower() != "narrator")
                 dialogueContainer.nameContainer.Show(speakerName);
             else
+            {
                 HideSpeakerName();
+                dialogueContainer.nameContainer.nameText.text = "";
+            }
         }
         public void HideSpeakerName(string speakerName = "") => dialogueContainer.nameContainer.Hide();
         public Coroutine Say(string speaker, string dialogue)
