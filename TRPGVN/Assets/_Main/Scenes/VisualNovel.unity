@@ -3627,12 +3627,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f0cdd71306bb74d889e9b9265053e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allPanels:
-  - panelName: Background
+  <allPanels>k__BackingField:
+  - panelName: background
     rootPanel: {fileID: 1232548351}
-  - panelName: Cinematic
+  - panelName: cinematic
     rootPanel: {fileID: 732446885}
-  - panelName: Foreground
+  - panelName: foreground
     rootPanel: {fileID: 1276949293}
 --- !u!1 &1275802412
 GameObject:
@@ -5414,7 +5414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -858.7999, y: -510.41028}
+  m_AnchoredPosition: {x: -858.8, y: -510.41028}
   m_SizeDelta: {x: -1719.94, y: -1033.03}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2081248772

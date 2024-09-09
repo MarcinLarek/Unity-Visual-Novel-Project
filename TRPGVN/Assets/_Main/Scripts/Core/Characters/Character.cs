@@ -25,6 +25,7 @@ namespace CHARACTERS
         public bool highlighted { get; protected set; } = true;
         protected bool facingLeft = DEFAULT_ORIENTATION_IS_FACING_LEFT;
         public int priority { get; protected set; }
+        public Vector2 targetPosition { get; private set; }
         protected CharacterManager characterManager => CharacterManager.instance;
         public DialogueSystem dialogueSytem => DialogueSystem.instance;
 
@@ -119,6 +120,8 @@ namespace CHARACTERS
             (Vector2 minAnchorTarget, Vector2 maxAnchorTarget) = ConvertUITargetPositionToRelativeCharacterAnchorTargets(position);
             root.anchorMin = minAnchorTarget;
             root.anchorMax = maxAnchorTarget;
+
+            targetPosition = position;
         }
         public virtual Coroutine MoveToPosition(Vector2 position, float speed = 2f, bool smooth = false)
         {
@@ -129,6 +132,8 @@ namespace CHARACTERS
                 characterManager.StopCoroutine(co_moving);
 
             co_moving = characterManager.StartCoroutine(MovingToPosition(position, speed, smooth));
+
+            targetPosition = position;
 
             return co_moving;
         }

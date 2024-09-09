@@ -17,6 +17,7 @@ namespace History
         public AudioData(AudioChannel channel)
         {
             this.channel = channel.channelIndex;
+
             if (channel.activeTrack == null)
                 return;
 
@@ -33,6 +34,9 @@ namespace History
             List<AudioData> audiochannels = new List<AudioData>();
             foreach (var channel in AudioManager.instance.channels)
             {
+                if (channel.Value.activeTrack == null)
+                    continue;
+
                 AudioData data = new AudioData(channel.Value);
                 audiochannels.Add(data);
             }

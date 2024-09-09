@@ -10,6 +10,10 @@ namespace TESTING
 
         public DialogueData data;
         public List<AudioData> audioData;
+        public List<GraphicData> graphicData;
+        public List<CharacterData> characterData;
+
+
 
         // Start is called before the first frame update
         void Start()
@@ -22,6 +26,9 @@ namespace TESTING
         {
             data = DialogueData.Capture();
             audioData = AudioData.Capture();
+            graphicData = GraphicData.Capture();
+            characterData = CharacterData.Capture();
+
         }
     }
 }
