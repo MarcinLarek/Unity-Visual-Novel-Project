@@ -42,5 +42,36 @@ namespace History
             }
             return audiochannels;
         }
+
+        public static void Apply(List<AudioData> data)
+        {
+            List<int> cache = new List<int>();
+
+            foreach(var channelData in data)
+            {
+                AudioChannel channel = AudioManager.instance.TryGetChannel(channelData.channel, createIfDoesNotExist: true);
+                if(channel.activeTrack == null || channel.activeTrack.name != channelData.trackName)
+                {
+                    AudioClip clip = HistoryCache.LoadAudio(channelData.trackPath);
+                    if (clip != null)
+                    {
+                        channel.StopTrack(immediate: true);
+                        //TODO
+                        //Now track is playing alwyas on the music mixer.
+                        //We need to check if this is ambience of music.
+                        channel.PlayTrack(clip, channelData.loop, channelData.trackVolume, channelData.trackVolume, channelData.trackPitch, channelData.trackPath, AudioManager.instance.musicMixer);
+                    }
+                    else
+                        Debug.LogWarning($"HistoryState: Could not load audio track '{channelData.trackPath}'");
+                }
+                cache.Add(channelData.channel);
+            }
+
+            foreach(var channel in AudioManager.instance.channels)
+            {
+                if(!cache.Contains(channel.Value.channelIndex))
+                    channel.Value.StopTrack(immediate: true);
+            }
+        }
     }
 }

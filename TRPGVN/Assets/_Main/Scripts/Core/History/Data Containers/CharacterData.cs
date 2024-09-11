@@ -104,6 +104,67 @@ namespace History
             return characters;
         }
 
+        public static void Apply(List<CharacterData> data)
+        {
+            List<string> cache = new List<string>();
+
+            foreach (CharacterData characterData in data)
+            {
+                Character character = CharacterManager.instance.GetCharacter(characterData.characterName, createIfDoesNotExist: true);
+                character.displayname = characterData.displayName;
+                character.SetColor(characterData.color);
+
+                if (characterData.isHighlighted)
+                    character.Highlight(immediate: true);
+                else
+                    character.UnHighlight(immediate: true);
+
+                character.SetPriority(characterData.priority);
+
+                if(characterData.isFacingLeft)
+                    character.FaceLeft(immediate: true);
+                else
+                    character.FaceRight(immediate: true);
+
+                character.SetPosition(characterData.position);
+
+                character.isVisible = characterData.enabled;
+
+                switch (character.config.characterType)
+                {
+                    case Character.CharacterType.Sprite:
+                    case Character.CharacterType.SpriteSheet:
+                        SpriteData sData = JsonUtility.FromJson<SpriteData>(characterData.dataJson);
+                        Character_Sprite sc = character as Character_Sprite;
+                        for(int i = 0; i < sData.layers.Count; i++)
+                        {
+                            var layer = sData.layers[i];
+                            if (sc.layers[i].renderer.sprite != null && sc.layers[i].renderer.sprite.name != layer.spriteName)
+                            {
+                                Sprite sprite = sc.GetSprite(layer.spriteName);
+                                if (sprite != null)
+                                    sc.SetSprite(sprite, i);
+                                else
+                                    Debug.LogWarning($"History State could not load sprite '{layer.spriteName}'");
+                            }
+                        }
+                        break;
+                    case Character.CharacterType.Live2D:
+                        //Todo
+                        break;
+                    case Character.CharacterType.Model3D:
+                        //Todo
+                        break;
+                }
+                cache.Add(character.name);
+            }
+            foreach(Character character in CharacterManager.instance.allCharacters)
+            {
+                if (!cache.Contains(character.name))
+                    character.isVisible = false;
+            }
+        }
+
         [System.Serializable]
         public class SpriteData
         {
