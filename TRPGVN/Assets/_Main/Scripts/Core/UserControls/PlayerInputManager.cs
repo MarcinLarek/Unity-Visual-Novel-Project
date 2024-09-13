@@ -20,6 +20,9 @@ namespace DIALOGUE
         private void InitializeActions()
         {
             actions.Add((input.actions["Next"], OnNext));
+            actions.Add((input.actions["HistoryBack"], OnHistoryBack));
+            actions.Add((input.actions["HistoryForward"], OnHistoryForward));
+
         }
 
         private void OnEnable()
@@ -42,6 +45,18 @@ namespace DIALOGUE
         {
             DialogueSystem.instance.OnUserPrompt_Next();
         }
+
+        public void OnHistoryBack(InputAction.CallbackContext c)
+        {
+            HistoryManager.instance.GoBack();
+        }
+
+        public void OnHistoryForward(InputAction.CallbackContext c)
+        {
+            HistoryManager.instance.GoForward();
+        }
+
+
     }
 }
 
