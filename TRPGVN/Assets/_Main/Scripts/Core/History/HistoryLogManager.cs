@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace History
 {
@@ -9,7 +10,7 @@ namespace History
     {
         private const float LOG_STARTING_HEIGHT = 43f;
         private const float LOG_HEIGHT_PER_LINE = 35f;
-        private const float DEFAULT_HEIGHT = 43f;
+        private const float LOG_DEFAULT_HEIGHT = 43f;
         private const float TEXT_DEFAULT_SCALE = 1f;
 
         private const string NAMETEXT_NAME = "NameText";
@@ -25,7 +26,10 @@ namespace History
 
         public bool isOpen { get; private set; } = false;
 
-        [SerializeField] private SliderJoint2D logScaleSlider;
+        [SerializeField] private Slider logScaleSlider;
+
+        private float textScaling => logScaling * 3f;
+
         public void Open()
         {
             if (isOpen)
@@ -55,7 +59,7 @@ namespace History
             CreateLog(state);
         }
 
-        public void CreateLog(HistoryState state)
+        private void CreateLog(HistoryState state)
         {
             HistoryLog log = new HistoryLog();
 
@@ -75,8 +79,56 @@ namespace History
                 log.nameText.font = HistoryCache.LoadFont(state.dialogue.speakerFont);
                 log.nameText.color = state.dialogue.speakerNameColor;
                 log.nameFontSize = TEXT_DEFAULT_SCALE * state.dialogue.speakerScale;
+                log.nameText.fontSize = log.nameFontSize + textScaling;
+            }
+
+            log.dialogueText.text = state.dialogue.currentDialogue;
+            log.dialogueText.font = HistoryCache.LoadFont(state.dialogue.dialogueFont);
+            log.dialogueText.color = state.dialogue.dialogueColor;
+            log.dialogueFontSize = TEXT_DEFAULT_SCALE * state.dialogue.dialogueScale;
+            log.dialogueText.fontSize = log.dialogueFontSize + textScaling;
+
+            logs.Add(log);
+
+            FitLogToText(log);
+        }
+
+        private void FitLogToText(HistoryLog log)
+        {
+            RectTransform rect = log.dialogueText.GetComponent<RectTransform>();
+            ContentSizeFitter textCSF = log.dialogueText.GetComponent<ContentSizeFitter>();
+
+            textCSF.SetLayoutVertical();
+
+            LayoutElement logLayout = log.container.GetComponent<LayoutElement>();
+            float height = rect.rect.height;
+
+            float perc = height / LOG_DEFAULT_HEIGHT;
+            float extraScale = (LOG_HEIGHT_PER_LINE * perc) - LOG_HEIGHT_PER_LINE;
+            float scale = LOG_STARTING_HEIGHT + extraScale;
+
+            logLayout.preferredHeight = scale + textScaling;
+            logLayout.preferredHeight += 2f * logScaling;
+        }
+
+        public void SetLogScaling()
+        {
+            logScaling = logScaleSlider.value;
+
+            foreach(HistoryLog log in logs)
+            {
+                log.nameText.fontSize = log.nameFontSize + textScaling;
+                log.dialogueText.fontSize = log.dialogueFontSize + textScaling;
+                FitLogToText(log);
             }
         }
 
+        public void Clear()
+        {
+            for (int i = 0; i < logs.Count; i++)
+                DestroyImmediate(logs[i].container);
+
+            logs.Clear();
+        }
     }
 }

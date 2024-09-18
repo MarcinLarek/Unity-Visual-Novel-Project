@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(HistoryLogManager))]
 [RequireComponent(typeof(HistoryNavigation))]
 public class HistoryManager : MonoBehaviour
 {
@@ -14,11 +16,13 @@ public class HistoryManager : MonoBehaviour
     public List<HistoryState> history = new List<HistoryState>();
 
     private HistoryNavigation navigation;
+    public HistoryLogManager logManager { get; private set; }
 
     private void Awake()
     {
         instance = this;
         navigation = GetComponent<HistoryNavigation>();
+        logManager = GetComponent<HistoryLogManager>();
     }
 
     // Start is called before the first frame update
@@ -31,6 +35,7 @@ public class HistoryManager : MonoBehaviour
     {
         HistoryState state = HistoryState.Capture();
         history.Add(state);
+        logManager.AddLog(state);
 
         if (history.Count > HISTORY_CACHE_LIMIT)
             history.RemoveAt(0);
