@@ -40,6 +40,8 @@ input "Type your name in here"
 
 narrator "Your name is <input>?"
 
+Affir "So i kinda need a very very very very very long text to test the history logs so i hope that this one will go for at least couple of lines, so let me talk a little bit more so i can fill my cryteria. I didin't eat anything yet. I bit hungry not much. Ok i think thats will be all"
+
 Affir "Affirs Showing"
 
 <mainChar> "Testing tags. Name: <mainChar> ; Time: <time> ; Lvl: <playerLevel> ; ATE: <tempvall>"

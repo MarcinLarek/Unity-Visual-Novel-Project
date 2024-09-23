@@ -108,7 +108,7 @@ namespace History
             float scale = LOG_STARTING_HEIGHT + extraScale;
 
             logLayout.preferredHeight = scale + textScaling;
-            logLayout.preferredHeight += 2f * logScaling;
+            logLayout.preferredHeight += 20f * logScaling;
         }
 
         public void SetLogScaling()
