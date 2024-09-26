@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using DIALOGUE;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace CHARACTERS
     public class CharacterConfigData
     {
         public string name;
-        public string alias; 
+        public string alias;
         public Character.CharacterType characterType;
 
         public Color nameColor;
@@ -20,6 +21,9 @@ namespace CHARACTERS
 
         public float nameFontSize;
         public float dialogueFontSize;
+
+        [SerializedDictionary("Path / ID", "Sprite")]
+        public SerializedDictionary<string, Sprite> sprites = new SerializedDictionary<string, Sprite>();
 
         public CharacterConfigData Copy()
         {

@@ -13,7 +13,7 @@ namespace DIALOGUE
     public class NameContainer
     {
         [SerializeField] private GameObject root;
-        [SerializeField] private TextMeshProUGUI nameText;
+        [field:SerializeField] public TextMeshProUGUI nameText { get; private set; }
         public void Show(string nameToShow = "")
         {
             root.SetActive(true);

@@ -21,6 +21,8 @@ namespace DIALOGUE
 
         public delegate void DialogueSystemEvent();
         public event DialogueSystemEvent onUserPrompt_Next;
+        public event DialogueSystemEvent onClear;
+
         public bool isRunningConversation => conversationManager.isRunning;
 
         public DialogueContinuePrompt prompt;
@@ -66,6 +68,29 @@ namespace DIALOGUE
         {
             onUserPrompt_Next?.Invoke();
         }
+        public void OnSystemPrompt_Clear()
+        {
+            onClear?.Invoke();
+        }
+        public void OnStartViewingHistory()
+        {
+            prompt.Hide();
+            autoReader.allowToggle = false;
+            conversationManager.allowUserPrompts = false;
+
+            if (autoReader.isOn)
+                autoReader.Disable();
+
+        }
+        public void OnStopViewingHistory()
+        {
+            prompt.Show();
+            autoReader.allowToggle = true;
+            conversationManager.allowUserPrompts = true;
+
+
+        }
+
         public void ApplySpeakerDataToDialogueContainer(string speakerName)
         {
             Character character = CharacterManager.instance.GetCharacter(speakerName);
@@ -82,9 +107,13 @@ namespace DIALOGUE
             if (speakerName.ToLower() != "narrator")
                 dialogueContainer.nameContainer.Show(speakerName);
             else
+            {
                 HideSpeakerName();
+                dialogueContainer.nameContainer.nameText.text = "";
+            }
         }
         public void HideSpeakerName(string speakerName = "") => dialogueContainer.nameContainer.Hide();
+
         public Coroutine Say(string speaker, string dialogue)
         {
             List<string> conversation = new List<string>() { $"{speaker} \"{dialogue}\"" };
@@ -95,7 +124,6 @@ namespace DIALOGUE
             Conversation conversation = new Conversation(lines);
             return conversationManager.StartConversation(conversation);
         }
-
         public Coroutine Say(Conversation conversation)
         {
             return conversationManager.StartConversation(conversation);

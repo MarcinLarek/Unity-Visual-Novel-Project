@@ -13,6 +13,7 @@ namespace DIALOGUE
         private DialogueSystem dialogueSystem => DialogueSystem.instance;
         private Coroutine process = null;
         public bool isRunning => process != null;
+        public bool isOnLogicalLine { get; private set; } = false;
 
         public TextArchitect architect = null;
         private bool userPrompt = false;
@@ -22,6 +23,8 @@ namespace DIALOGUE
         public Conversation conversation => (conversationQueue.IsEmpty() ? null : conversationQueue.top);
         public int conversationProgess => (conversationQueue.IsEmpty() ? -1 : conversationQueue.top.GetProgress());
         private ConversatiuonQueue conversationQueue;
+
+        public bool allowUserPrompts = true;
 
         public ConversationManager(TextArchitect architect)
         {
@@ -36,7 +39,8 @@ namespace DIALOGUE
 
         private void OnUserPrompt_Next()
         {
-            userPrompt = true;
+            if(allowUserPrompts)
+                userPrompt = true;
         }
         public Coroutine StartConversation(Conversation conversation)
         {
@@ -83,6 +87,7 @@ namespace DIALOGUE
 
                 if(logicalLineManager.TryGetLogic(line, out Coroutine logic))
                 {
+                    isOnLogicalLine = true;
                     yield return logic;
                 }
                 else
@@ -99,12 +104,15 @@ namespace DIALOGUE
                     if (line.hasDialogue)
                     {
                         //Wait for user input
-                        yield return WiatForUserInput();
+                        yield return WaitForUserInput();
                         CommandManager.instance.StopAllProcesses();
+
+                        dialogueSystem.OnSystemPrompt_Clear();
                     }
                 }
 
                 TryAdvanceConversation(currentConversation);
+                isOnLogicalLine = false;
             }
 
             process = null;
@@ -201,10 +209,18 @@ namespace DIALOGUE
             switch (segment.startSignal)
             {
                 case DL_DIALOGUE_DATA.DIALOGUE_SEGMENT.StartSignal.C:
+                    yield return WaitForUserInput();
+                    dialogueSystem.OnSystemPrompt_Clear();
+                    break;
                 case DL_DIALOGUE_DATA.DIALOGUE_SEGMENT.StartSignal.A:
-                    yield return WiatForUserInput();
+                    yield return WaitForUserInput();
                     break;
                 case DL_DIALOGUE_DATA.DIALOGUE_SEGMENT.StartSignal.WC:
+                    isWaitingOnAutoTimer = true;
+                    yield return new WaitForSeconds(segment.signalDelay);
+                    isWaitingOnAutoTimer = false;
+                    dialogueSystem.OnSystemPrompt_Clear();
+                    break;
                 case DL_DIALOGUE_DATA.DIALOGUE_SEGMENT.StartSignal.WA:
                     isWaitingOnAutoTimer = true;
                     yield return new WaitForSeconds(segment.signalDelay);
@@ -239,7 +255,7 @@ namespace DIALOGUE
                 yield return null;
             }
         }
-        IEnumerator WiatForUserInput()
+        IEnumerator WaitForUserInput()
         {
             dialogueSystem.prompt.Show();
 
