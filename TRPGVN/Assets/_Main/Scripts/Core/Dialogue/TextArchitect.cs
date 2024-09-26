@@ -70,6 +70,16 @@ public class TextArchitect
         tmpro.StopCoroutine(buildProcess);
         buildProcess = null;
     }
+    public void SetText(string text)
+    {
+        preText = "";
+        targetText = text;
+
+        Stop();
+
+        tmpro.text = targetText;
+        ForceComplete();
+    }
     
     IEnumerator Building()
     {
@@ -98,6 +108,7 @@ public class TextArchitect
         switch (buildMethod)
         {
             case BuildMethod.typewriter:
+                tmpro.ForceMeshUpdate();
                 tmpro.maxVisibleCharacters = tmpro.textInfo.characterCount;
                 break;
             case BuildMethod.fade:
