@@ -23,7 +23,7 @@ namespace DIALOGUE.LogicalLines
             Conversation currentConversation = DialogueSystem.instance.conversationManager.conversation;
             int currentProgess = DialogueSystem.instance.conversationManager.conversationProgess;
 
-            EncapulatedData ifData = RipEncapsulationData(currentConversation, currentProgess, ripHeaderAndEncapsulators: false);
+            EncapulatedData ifData = RipEncapsulationData(currentConversation, currentProgess, ripHeaderAndEncapsulators: false, parentStartingIndex: currentConversation.fileStartIndex);
             EncapulatedData elseData = new EncapulatedData();
 
             if(ifData.endingIndex + 1 < currentConversation.Count)
@@ -31,7 +31,7 @@ namespace DIALOGUE.LogicalLines
                 string nextline = currentConversation.GetLines()[ifData.endingIndex + 1].Trim();
                 if (nextline == ELSE)
                 {
-                    elseData = RipEncapsulationData(currentConversation, ifData.endingIndex + 1, false);
+                    elseData = RipEncapsulationData(currentConversation, ifData.endingIndex + 1, false, parentStartingIndex: currentConversation.fileStartIndex);
                     ifData.endingIndex = elseData.endingIndex;
                 }
             }
@@ -40,7 +40,7 @@ namespace DIALOGUE.LogicalLines
             EncapulatedData selData = conditionResult ? ifData : elseData;
             if (!selData.isNull && selData.lines.Count > 0)
             {
-                Conversation newConversation = new Conversation(selData.lines);
+                Conversation newConversation = new Conversation(selData.lines, file: currentConversation.file, fileStartIndex: currentConversation.fileStartIndex, fileEndIndex: currentConversation.fileEndIndex);
                 DialogueSystem.instance.conversationManager.EnqueuePriority(newConversation);
             }
 

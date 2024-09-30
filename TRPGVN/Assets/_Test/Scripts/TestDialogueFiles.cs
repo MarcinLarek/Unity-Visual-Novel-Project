@@ -1,6 +1,8 @@
 using DIALOGUE;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using static UnityEngine.Rendering.HableCurve;
 
@@ -19,33 +21,23 @@ namespace TESTING
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-                DialogueSystem.instance.dialogueContainer.Hide();
-
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-                DialogueSystem.instance.dialogueContainer.Show();
+            //if (Input.GetKeyDown(KeyCode.DownArrow))
+            //    DialogueSystem.instance.dialogueContainer.Hide();
+            //
+            //if (Input.GetKeyDown(KeyCode.UpArrow))
+            //   DialogueSystem.instance.dialogueContainer.Show();
         }
 
         void StartConversation()
         {
-            List<string> lines = FileManager.ReadTextAsset(fileToRead);
+            string fullPath = AssetDatabase.GetAssetPath(fileToRead);
 
-            //foreach (string line in lines)
-            //{
-            //    if (string.IsNullOrWhiteSpace(line))
-            //        continue;
+            int resourcesIndex = fullPath.IndexOf("Resources/");
+            string relativePath = fullPath.Substring(resourcesIndex + 10);
 
-            //    DIALOGUE_LINE dl = DialogueParser.Parse(line);
+            string filePath = Path.ChangeExtension(relativePath, null);
 
-            //    for (int i = 0; i < dl.commandData.commands.Count; i++)
-            //    {
-            //        DL_COMMAND_DATA.Command command = dl.commandData.commands[i];
-            //        Debug.Log($"Command [{i}] '{command.name}' has arguments [{string.Join(", ", command.arguments)}]");
-            //    }
-
-            //}
-
-            DialogueSystem.instance.Say(lines);
+            VNManager.instance.LoadFile(filePath);
         }
     }
 }

@@ -27,10 +27,10 @@ namespace DIALOGUE.LogicalLines
             public static bool IsIncapsulationStart(string line) => line.Trim().StartsWith(ENCAOSULATION_START);
             public static bool IsIncapsulationEnd(string line) => line.Trim().StartsWith(ENCAOSULATION_END);
 
-            public static EncapulatedData RipEncapsulationData(Conversation conversation, int startingIndex, bool ripHeaderAndEncapsulators = false)
+            public static EncapulatedData RipEncapsulationData(Conversation conversation, int startingIndex, bool ripHeaderAndEncapsulators = false, int parentStartingIndex = 0)
             {
                 int encapsulationDepth = 0;
-                EncapulatedData data = new EncapulatedData { lines = new List<string>(), startingIndex = startingIndex, endingIndex = 0 };
+                EncapulatedData data = new EncapulatedData { lines = new List<string>(), startingIndex = (startingIndex + parentStartingIndex), endingIndex = 0 };
 
                 for (int i = startingIndex; i < conversation.Count; i++)
                 {
@@ -49,7 +49,7 @@ namespace DIALOGUE.LogicalLines
                         encapsulationDepth--;
                         if (encapsulationDepth == 0)
                         {
-                            data.endingIndex = i;
+                            data.endingIndex = (i + parentStartingIndex);
                             break;
                         }
                     }

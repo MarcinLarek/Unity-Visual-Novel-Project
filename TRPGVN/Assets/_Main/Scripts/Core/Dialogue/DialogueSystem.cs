@@ -119,9 +119,9 @@ namespace DIALOGUE
             List<string> conversation = new List<string>() { $"{speaker} \"{dialogue}\"" };
             return Say(conversation);
         }      
-        public Coroutine Say(List<string> lines)
+        public Coroutine Say(List<string> lines, string filePath = "")
         {
-            Conversation conversation = new Conversation(lines);
+            Conversation conversation = new Conversation(lines, file: filePath);
             return conversationManager.StartConversation(conversation);
         }
         public Coroutine Say(Conversation conversation)

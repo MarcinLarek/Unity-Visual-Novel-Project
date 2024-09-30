@@ -9,6 +9,11 @@ playAmbience(RainyMood)
 playSong(Calm)
 playVoice(WakeUp)
 
+Affir "Test 1"
+Affir "Test 2"
+Affir "Test 3"
+Affir "Test 4"
+
 Affir "What's your  story?"
 
 choice "Select Origin"

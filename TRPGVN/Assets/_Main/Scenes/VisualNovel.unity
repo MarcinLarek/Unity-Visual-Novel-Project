@@ -3018,7 +3018,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &688339289
 MonoBehaviour:
@@ -3295,6 +3295,7 @@ GameObject:
   - component: {fileID: 865023174}
   - component: {fileID: 865023175}
   - component: {fileID: 865023176}
+  - component: {fileID: 865023177}
   m_Layer: 0
   m_Name: TESTING
   m_TagString: Untagged
@@ -3414,7 +3415,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865023167}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c1814c8ed8c81b45bb1b44f8ee0d1f7, type: 3}
   m_Name: 
@@ -3432,6 +3433,18 @@ MonoBehaviour:
     characters: []
     audio: []
     graphics: []
+--- !u!114 &865023177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865023167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c16c7ea81e52049bec92afd628ecba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &871690022
 GameObject:
   m_ObjectHideFlags: 0
@@ -4635,7 +4648,7 @@ Transform:
   - {fileID: 1761572019}
   - {fileID: 583931010}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1197229629
 GameObject:
@@ -7133,7 +7146,7 @@ Transform:
   m_Children:
   - {fileID: 865023168}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2000695501
 GameObject:
@@ -7804,6 +7817,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 203434305}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2126800588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2126800590}
+  - component: {fileID: 2126800589}
+  m_Layer: 0
+  m_Name: VIsual Novel Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2126800589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126800588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593076630afacc549bd2d93362a84458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2126800590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126800588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.5183194, y: -0.96706307, z: -0.07691944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2140907910
 GameObject:
