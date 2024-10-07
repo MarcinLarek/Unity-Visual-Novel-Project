@@ -34,6 +34,7 @@ namespace DIALOGUE
             logicalLineManager = new LogicalLineManager();
             conversationQueue = new ConversatiuonQueue();
         }
+        public Conversation[] GetConversationQueue() => conversationQueue.GetReadOnly();
         public void Enqueue(Conversation conversation) => conversationQueue.Enqueue(conversation);
         public void EnqueuePriority(Conversation conversation) => conversationQueue.EnqueuePriority(conversation);
 
