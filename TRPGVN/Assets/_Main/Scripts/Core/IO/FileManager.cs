@@ -90,6 +90,15 @@ public class FileManager
 
     public static void Save(string filePath, string JSONData)
     {
-        
+        if(!TryCreateDirectoryFromPath(filePath))
+        {
+            Debug.LogError($"FAILED TO SAVE FILE '{filePath}'. Please see the console for error details.");
+            return;
+        }
+
+        StreamWriter sw = new StreamWriter(filePath);
+        sw.Write(JSONData);
+        sw.Close();
+        Debug.Log($"Save data to file {filePath}");
     }
 }

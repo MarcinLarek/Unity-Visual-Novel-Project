@@ -2,6 +2,8 @@ using DIALOGUE;
 using History;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace VISUALNOVEL
@@ -32,12 +34,17 @@ namespace VISUALNOVEL
             activeConversations = GetConversationData();
 
             string saveJson = JsonUtility.ToJson(this);
-            //FileManager.
+            FileManager.Save(filePath, saveJson);
         }
 
         public void Load()
         {
+            if (activeFile != null)
+                activeState.Load();
 
+            HistoryManager.instance.history = historyLogs.ToList();
+
+            SetConversationData();
         }
 
         private string[] GetConversationData()
@@ -70,6 +77,31 @@ namespace VISUALNOVEL
                 retData.Add(data);
             }
             return retData.ToArray();
+        }
+
+        private void SetConversationData()
+        {
+            for(int i = 0; i < activeConversations.Length; i++)
+            {
+                string data = activeConversations[i];
+                Conversation conversation = null;
+                var fullData = JsonUtility.FromJson<VN_ConversationData>(data);
+
+                if(fullData != null)
+                {
+                    conversation = new Conversation(fullData.conversation, fullData.progress);
+                }
+                else
+                {
+                    var compressedData = JsonUtility.FromJson<VN_ConversationDataCompress>(data);
+                    if(compressedData != null)
+                    {
+                        TextAsset file = Resources.Load<TextAsset>(compressedData.fileName);
+                        List<string> lines = FileManager.ReadTextAsset(file);
+                        conversation = new Conversation(lines, compressedData.progress, compressedData.fileName, compressedData.startIndex, compressedData.endIndex);
+                    }
+                }
+            }
         }
 
     }
