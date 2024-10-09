@@ -83,23 +83,47 @@ namespace VISUALNOVEL
         {
             for(int i = 0; i < activeConversations.Length; i++)
             {
-                string data = activeConversations[i];
-                Conversation conversation = null;
-                var fullData = JsonUtility.FromJson<VN_ConversationData>(data);
+                try
+                {
+                    string data = activeConversations[i];
+                    Conversation conversation = null;
+                    var fullData = JsonUtility.FromJson<VN_ConversationData>(data);
 
-                if(fullData != null)
-                {
-                    conversation = new Conversation(fullData.conversation, fullData.progress);
-                }
-                else
-                {
-                    var compressedData = JsonUtility.FromJson<VN_ConversationDataCompress>(data);
-                    if(compressedData != null)
+                    if (fullData != null)
                     {
-                        TextAsset file = Resources.Load<TextAsset>(compressedData.fileName);
-                        List<string> lines = FileManager.ReadTextAsset(file);
-                        conversation = new Conversation(lines, compressedData.progress, compressedData.fileName, compressedData.startIndex, compressedData.endIndex);
+                        conversation = new Conversation(fullData.conversation, fullData.progress);
                     }
+                    else
+                    {
+                        var compressedData = JsonUtility.FromJson<VN_ConversationDataCompress>(data);
+                        if (compressedData != null)
+                        {
+                            TextAsset file = Resources.Load<TextAsset>(compressedData.fileName);
+
+                            int count = compressedData.endIndex - compressedData.startIndex;
+
+                            List<string> lines = FileManager.ReadTextAsset(file).Skip(compressedData.startIndex).Take(count).ToList();
+
+                            conversation = new Conversation(lines, compressedData.progress, compressedData.fileName, compressedData.startIndex, compressedData.endIndex);
+                        }
+                        else
+                        {
+                            Debug.LogError($"Unkown conversation format! Unable to reload conversation from VNGameSave using data '{data}'");
+                        }
+                    }
+
+                    if (conversation != null && conversation.GetLines().Count > 0)
+                    {
+                        if (i == 0)
+                            DialogueSystem.instance.conversationManager.StartConversation(conversation);
+                        else
+                            DialogueSystem.instance.conversationManager.Enqueue(conversation);
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogError($"Encountered error while extracting save conversation data! {e} ");
+                    continue;
                 }
             }
         }

@@ -20,6 +20,7 @@ public class GameSaveTesting : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.L))
         {
+            VNGameSave.activeFile = FileManager.Load<VNGameSave>($"{FilePaths.gameSaves}1{VNGameSave.FILE_TYPE}");
             VNGameSave.activeFile.Load();
         }
     }

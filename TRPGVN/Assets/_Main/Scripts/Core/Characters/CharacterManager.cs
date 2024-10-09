@@ -137,7 +137,7 @@ namespace CHARACTERS
             int i = 0;
             foreach(Character character in charactersSortingOrder)
             {
-                Debug.Log($"{character.name} priority is {character.priority}");
+                //Debug.Log($"{character.name} priority is {character.priority}");
                 character.root.SetSiblingIndex(i++);
             }
         }
